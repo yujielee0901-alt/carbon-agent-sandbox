@@ -71,14 +71,60 @@ def bottom_navigation(current_page):
             st.rerun()
 
 # ------------------------------------------
-# 页面 0：欢迎启动页 
+# 页面 0：全新科技风动态欢迎页 (Splash Screen)
 # ------------------------------------------
 if st.session_state.page == 'splash':
-    st.markdown("<div style='margin-top: 20vh;'></div>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center; font-size: 40px; letter-spacing: 2px;'>资源型城市低碳转型宏观决策沙盘</h2>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center; color: #555555; font-weight: normal; font-size: 18px;'>基于 OrthoIV-Causal Forest 与 NSGA-III 运筹优化的政务推演系统</h3>", unsafe_allow_html=True)
-    st.markdown("<br><br><br><p style='text-align: center; color: #888888; font-size: 16px;'>底层数据与算法模型初始化中，请稍候...</p>", unsafe_allow_html=True)
-    time.sleep(3)
+    # 注入 CSS 动画黑科技
+    st.markdown("""
+    <style>
+    .splash-container {
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        height: 70vh; background: linear-gradient(-45deg, #f8fafc, #ffffff, #f1f5f9, #ffffff);
+        background-size: 400% 400%; animation: gradientBG 4s ease infinite;
+        border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-top: 5vh; border: 1px solid #e2e8f0;
+    }
+    @keyframes gradientBG {
+        0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;}
+    }
+    .pulse-icon { font-size: 70px; animation: pulse 1.5s infinite; margin-bottom: 20px; }
+    @keyframes pulse {
+        0% {transform: scale(0.95); opacity: 0.8;} 50% {transform: scale(1.05); opacity: 1;} 100% {transform: scale(0.95); opacity: 0.8;}
+    }
+    .spinner {
+        width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid #2563eb;
+        border-radius: 50%; animation: spin 1s linear infinite; margin-top: 30px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text { color: #64748b; font-size: 15px; margin-top: 25px; font-family: monospace; letter-spacing: 1px;}
+    </style>
+    """, unsafe_allow_html=True)
+
+    # 创建一个空的占位符，用于后续动态刷新文本
+    placeholder = st.empty()
+    
+    # 拟真加载流程文案
+    messages = [
+        "正在加载底层宏观面板数据库 (中原城市群 25 市)...",
+        "正在唤醒 OrthoIV-Causal Forest 双重机器学习引擎...",
+        "正在挂载 NSGA-III 多目标运筹寻优算法模块...",
+        "沙盘底层环境配置完毕，系统主界面即将启动..."
+    ]
+
+    # 循环刷新占位符，制造动态加载特效
+    for msg in messages:
+        html_content = f"""
+        <div class='splash-container'>
+            <div class='pulse-icon'>🌍</div>
+            <h1 style='color: #0f172a; margin-bottom: 5px; font-size: 38px; letter-spacing: 2px;'>资源型城市低碳转型宏观决策沙盘</h1>
+            <h3 style='color: #475569; font-weight: 400; margin-top: 0; font-size: 18px;'>数智寻路：基于因果推断与运筹优化的政务智能体系统</h3>
+            <div class='spinner'></div>
+            <p class='loading-text'>{msg}</p>
+        </div>
+        """
+        placeholder.markdown(html_content, unsafe_allow_html=True)
+        time.sleep(0.8) # 每次停留0.8秒，总计约3.2秒
+
+    # 加载完毕，无缝跳转配置页
     st.session_state.page = 'config'
     st.rerun()
 
