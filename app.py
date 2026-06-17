@@ -1,4 +1,4 @@
-import streamlit id status
+import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
@@ -15,10 +15,10 @@ C_DEEP_FOREST = "#1A3622"      # 深苍翠 (安全/质变区)
 C_GLACIER_TEAL = "#4DB8B3"     # 冰川青 (泛基准核心点缀)
 C_WARNING_RED = "#D32F2F"      # 警报红 (防过热预警)
 
-# 注入 CSS：精准限定文本元素应用黑体，完美避开 span 与 div 以防止图标文字泄漏
+# 注入 CSS：全面替换为现代黑体系统，包含移动端自适应与界面布局优化
 st.markdown(f"""
     <style>
-        html, body, h1, h2, h3, h4, h5, h6, p, label, .stMarkdown, [data-testid="stWidgetLabel"] {{
+        html, body, [data-testid="stWidgetLabel"], p, span, div, h1, h2, h3, h4, h5, h6, label, .stMarkdown {{
             font-family: 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimHei', '黑体', sans-serif !important;
             color: {C_CHARCOAL_SLATE};
         }}
@@ -267,7 +267,7 @@ elif st.session_state.page == 'mod1':
         st.plotly_chart(fig_radar, use_container_width=True)
         
     with col2:
-        st.subheader("分析一： 量化数值结构分析")
+        st.subheader("分析一： 量化数值结构 analysis")
         st.info(f"通过高维极差空间拓扑计算，本系统对目标城市进行了宏观数据的降维测度。结果显示，该市在“浅层民用网络（宽带普及）”维度的标准化得分达到 {city_scores[3]:.1f}，已接近全省平均发展基准水位，这表明基于消费端的数字化红利已充分释放并趋于饱和边界。然而，系统侦测到，在直接决定宏观实体产业深度重构的核心要素指标上（如深层传输光缆与高精尖人才密度），该市数据曲线呈现出结构性落差与底层资产相对不足。")
         
         st.subheader("建议二： 统筹指导发展与精准投资建议")
@@ -305,10 +305,10 @@ elif st.session_state.page == 'mod2':
             st.plotly_chart(fig_gauge, use_container_width=True)
             
         with col_t:
-            st.subheader("分析一： 深度预测与量化数值分析")
+            st.subheader("一、 深度预测与量化数值分析")
             st.info(f"当前底层因果森林引擎（OrthoIV）已锁定目标并自动切换为泛基准综合型城市防过热推演模式。算法在剔除了宏观多维混淆变量后确证：此类城市在现阶段缺乏可供深度消纳庞大冗余算力的重化工产业链矩阵。结合控制台实时拟定的 {st.session_state.c_invest:.1f} 亿元 资本投入，模型捕捉到了宏观不协调信号。在缺乏实体应用场景转化的约束下，该笔超前投资极易诱发明显的规模耗能效应，伴随显著的高碳代价风险。如左侧仪表盘所示，风险指数正随投资总额的攀升而逐步逼近临界过热区间。")
             
-            st.subheader("建议二： 跨部门协同防御与投资阻断建议")
+            st.subheader("二、 跨部门协同防御与投资阻断建议")
             st.success("前置合规性审查建议：事前仿真测算结果发出了结构性风险信号。针对规划方案中隐含的规模耗能反噬风险，相关合规部门宜在基础设施项目的立项核准阶段，加强效益比对。合理调减缺乏真实场景场景支撑的超前重资产算力或冗余光缆线路，从源头上防范固定资产低效扩张。\n\n"
                         "财政与生态环境部门：财政部门宜参考仿真阈值，建立专项债及财政支出的动态反馈调控机制，合理收紧涉边际能耗偏高项目的资金敞口，将财政资源有序导向软件生态开发与人力资本增量路径，维护地方公共杠杆率处于健康范围。同时，生态环境部门可将本模块生成的高碳代价预警阈值正式纳入区域性环境影响评估，保障全域绿色发展路径与总体碳排放约束的良性协同。")
             
@@ -326,10 +326,10 @@ elif st.session_state.page == 'mod2':
             st.plotly_chart(fig_gauge, use_container_width=True)
             
         with col_t:
-            st.subheader("分析一： 深度预测与量化数值分析")
+            st.subheader("一、 深度预测与量化数值分析")
             st.info(f"基于该市的产业图谱，当前分析引擎处于典型重工业城市碳锁定破局验证模式。经过数理因果逻辑链条推演，本系统确证：数字化基础设施要素一旦成功贯穿并嵌套入高耗能生产流水线，其所爆发的能效协同优化能够表现出显著的节能对冲效应（边际增碳规模被有效控制在较低水平）。依托控制台实时的 {total_invest:.1f} 亿元 总投资规模推演，模型动态研判当前资金规模能够跨越能耗爬坡阶段、全面发挥规模报酬红利的理论概率定格为 {breakthrough_score:.1f}%。")
             
-            st.subheader("建议二： 战略定力保持与精准爆破建议")
+            st.subheader("二、 战略定力保持与精准爆破建议")
             st.success("宏观战略统筹指导：若左侧仪表盘指针徘徊于拐点蓄力区间，表明城市转型正深陷基建土木期所伴随的能耗爬坡阶段。决策层需保持较强的宏观转型定力与政策连贯性，避免因短期局部耗能反弹而产生政策摇摆。应当保障持续、稳健的资金接续机制，使之顺利跨越边际效益拐点，确保整体数字化改造项目顺利释放节能成效。\n\n"
                         "相关部门专项干预部署：为防范政策实施过程中出现的资金碎片化与边际效力递减，产业与财政部门宜构建高度集中的技术技改补贴机制。确保公共资源形成规模合力，靶向聚焦工业车辆调度、高炉优化与绿色原材料开采等核心高能耗、高排放节点实施流程重塑与精准引导，全面释放深层数智化转型释放的长期长期边际效应。")
         
@@ -389,7 +389,7 @@ elif st.session_state.page == 'mod4':
     st.plotly_chart(fig_3d, use_container_width=True)
     
     st.subheader("分析一： 高维空间运算与量化数值分析")
-    st.info(f"为了统筹协调发展过程中的“保障平稳增长、推进碳排收敛、维持财政安全”等多目标协同约束，系统调用三代非支配排序遗传算法（NSGA-III）进行高维解空间全局寻优，映射出本帕累托前沿曲面。当前系统侦测确认，决策层在前端控制台锁定的干预总规模定格为 {total_invest:.1f} 亿元。将该数值代入底层非线性评估函数池进行拓扑测算后，系统严谨推推演得出：该项投资组合预期可为城市创造约 {base_carbon-pred_carbon:.2f} Mt 的绝对减排收敛减量，并同步预期在现有宏观底盘的基础上，为地方实际GDP额外产生 {user_z_gdp:.2f}% 的实质性拉动空间。")
+    st.info(f"为了统筹协调发展过程中的“保障平稳增长、推进碳排收敛、维持财政安全”等多目标协同约束，系统调用三代非支配排序遗传算法（NSGA-III）进行高维解空间全局寻优，映射出本帕累托前沿曲面。当前系统侦测确认，决策层在前端控制台锁定的干预总规模定格为 {total_invest:.1f} 亿元。将该数值代入底层非线性评估函数池进行拓扑测算后，系统严谨推演得出：该项投资组合预期可为城市创造约 {base_carbon-pred_carbon:.2f} Mt 的绝对减排收敛减量，并同步预期在现有宏观底盘的基础上，为地方实际GDP额外产生 {user_z_gdp:.2f}% 的实质性拉动空间。")
 
     st.subheader("建议二： 宏观政策决策建议与发展统筹指导意见")
     if total_invest < 4.0:
