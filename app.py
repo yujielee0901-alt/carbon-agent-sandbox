@@ -288,7 +288,7 @@ elif st.session_state.page == 'mod1':
 # ------------------------------------------
 elif st.session_state.page == 'mod2':
     st.button("返回沙盘主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
-    st.markdown("## ⏱️ 模块二：门槛研判与防过热预警 (重大项目事前审查机制)")
+    st.markdown("## ⏱️ 模块二：门槛研判与防过热预警")
     
     col_g, col_t = st.columns([1, 1])
     
