@@ -6,7 +6,7 @@ import plotly.express as px
 import time
 
 # ==========================================
-# 0. 全局配置与移动端自适应美学定义
+# 0. 全局配置与PC端政务大屏美学定义
 # ==========================================
 st.set_page_config(page_title="数智寻路：低碳转型政务沙盘", layout="wide", initial_sidebar_state="expanded")
 
@@ -15,15 +15,15 @@ C_DEEP_FOREST = "#1A3622"      # 深苍翠 (安全/质变区)
 C_GLACIER_TEAL = "#4DB8B3"     # 冰川青 (泛基准核心点缀)
 C_WARNING_RED = "#D32F2F"      # 警报红 (防过热预警)
 
-# 注入 CSS：全面替换为现代黑体系统，包含移动端自适应与界面布局优化
+# 注入 CSS：纯PC端高级大屏展示配置，采用现代黑体系统，彻底清除冗余标签
 st.markdown(f"""
     <style>
         html, body, [data-testid="stWidgetLabel"], p, span, div, h1, h2, h3, h4, h5, h6, label, .stMarkdown {{
             font-family: 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimHei', '黑体', sans-serif !important;
             color: {C_CHARCOAL_SLATE};
         }}
-        .title-main {{ font-size: clamp(36px, 5vw, 60px); color: {C_CHARCOAL_SLATE}; letter-spacing: 4px; text-align: center; font-weight: bold; margin-bottom: 0px; }}
-        .title-sub {{ font-size: clamp(16px, 2.5vw, 24px); color: {C_DEEP_FOREST}; text-align: center; margin-top: 10px; margin-bottom: 30px; }}
+        .title-main {{ font-size: 60px; color: {C_CHARCOAL_SLATE}; letter-spacing: 4px; text-align: center; font-weight: bold; margin-bottom: 0px; }}
+        .title-sub {{ font-size: 24px; color: {C_DEEP_FOREST}; text-align: center; margin-top: 10px; margin-bottom: 30px; }}
         .spin-earth {{ font-size: 80px; text-align: center; animation: spin 4s linear infinite; margin-bottom: 20px; }}
         @keyframes spin {{ 100% {{ transform: rotate(360deg); }} }}
         
@@ -31,7 +31,6 @@ st.markdown(f"""
         .mod-card:hover {{ box-shadow: 0 8px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }}
         
         [data-testid="collapsedControl"] {{display: none;}}
-        @media (max-width: 768px) {{ .stPlotlyChart {{ width: 100% !important; }} }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -75,7 +74,7 @@ def normalize_to_100(val, col_name):
 def bottom_navigation(current_page):
     st.markdown("---")
     st.markdown("### 协同决策矩阵快速切换")
-    pages = {'mod1': "一、宏观体检与断层扫描", 'mod2': "二、门槛研判与防过热预警", 'mod3': "三、资金效费比(ROI)仿真", 'mod4': "四、多约束帕累托指导方案"}
+    pages = {'mod1': "一、宏观体检与断层扫描", 'mod2': "二、门槛研判与防过热预警", 'mod3': "三、政策试错与三年轨迹预测", 'mod4': "四、多约束帕累托指导方案"}
     nav_keys = [k for k in pages.keys() if k != current_page]
     cols = st.columns(3)
     for i, k in enumerate(nav_keys):
@@ -204,7 +203,7 @@ if st.session_state.page not in ['splash', 'city_select']:
             
         st.markdown("---")
         st.markdown("三、动态调节年度专项财政干预额度 (亿元)")
-        st.markdown("*调整滑块，大屏将毫秒级实施反事实仿真推演*")
+        st.markdown("*拖动滑块，开启政策试错与反事实仿真推演*")
         st.session_state.c_invest = st.slider("深层工业基建专项资金", 0.0, 20.0, st.session_state.c_invest, 0.1)
         st.session_state.f_invest = st.slider("绿色外资招商引导补贴", 0.0, 10.0, st.session_state.f_invest, 0.1)
         st.session_state.i_invest = st.slider("数字领域人才引育配额", 0.0, 5.0, st.session_state.i_invest, 0.1)
@@ -212,6 +211,7 @@ if st.session_state.page not in ['splash', 'city_select']:
     # 全局底层计算公式 (CATE异质性逻辑映射)
     total_invest = st.session_state.c_invest + st.session_state.f_invest + st.session_state.i_invest
     base_carbon = city_data["基准碳排"]
+    
     if current_engine_logic == "综合型":
         infra_cost_penalty = st.session_state.c_invest * 3.5 
         reduce_effect = (st.session_state.f_invest * 2.0) + (st.session_state.i_invest * 2.5) 
@@ -224,7 +224,7 @@ if st.session_state.page not in ['splash', 'city_select']:
 # 页面 2：主系统导航大屏
 # ------------------------------------------
 if st.session_state.page == 'menu':
-    st.markdown(f"## 【{st.session_state.s_city}】政务投资事前仿真与多目标沙盘")
+    st.markdown(f"## 🌍 【{st.session_state.s_city}】政务投资事前仿真与多目标沙盘")
     st.info(f"系统底层确证状态：当前算法已自适应切入 {current_engine_logic}城市 演化路线。所有反馈均基于双重机器学习剔除宏观混淆变量后的纯粹因果效应，为地方政府提供高度量化的投资指导发展建议。")
     
     with st.container(border=True):
@@ -238,9 +238,9 @@ if st.session_state.page == 'menu':
         if st.button("进入门槛预警模块", key="m2", use_container_width=True): st.session_state.page = 'mod2'; st.rerun()
 
     with st.container(border=True):
-        st.markdown("### 三、 政策资金效费比(ROI)仿真测算")
-        st.markdown("将高阶博弈论特征剥离机制应用于政务资金评估。事前量化预测同等规模的公共财政预算投入至光缆、外资或人才专项中所产生的绝对综合效费比差异，提供科学长效的资源配置参考。")
-        if st.button("进入ROI仿真模块", key="m3", use_container_width=True): st.session_state.page = 'mod3'; st.rerun()
+        st.markdown("### 三、 政策试错与三年轨迹预测 (ROI仿真)")
+        st.markdown("系统赋予决策者“政策试错”与压力测试的能力。同步输出未来三年碳排放演化轨迹折线图与SHAP瀑布图，在毫秒级内直观呈现各项投资的边际效费比，从源头杜绝盲目决策带来的沉没成本。")
+        if st.button("进入政策试错模块", key="m3", use_container_width=True): st.session_state.page = 'mod3'; st.rerun()
 
     with st.container(border=True):
         st.markdown("### 四、 多约束帕累托决策指导生成")
@@ -267,7 +267,7 @@ elif st.session_state.page == 'mod1':
         st.plotly_chart(fig_radar, use_container_width=True)
         
     with col2:
-        st.subheader("分析一： 量化数值结构 analysis")
+        st.subheader("分析一： 量化数值结构分析")
         st.info(f"通过高维极差空间拓扑计算，本系统对目标城市进行了宏观数据的降维测度。结果显示，该市在“浅层民用网络（宽带普及）”维度的标准化得分达到 {city_scores[3]:.1f}，已接近全省平均发展基准水位，这表明基于消费端的数字化红利已充分释放并趋于饱和边界。然而，系统侦测到，在直接决定宏观实体产业深度重构的核心要素指标上（如深层传输光缆与高精尖人才密度），该市数据曲线呈现出结构性落差与底层资产相对不足。")
         
         st.subheader("建议二： 统筹指导发展与精准投资建议")
@@ -305,10 +305,10 @@ elif st.session_state.page == 'mod2':
             st.plotly_chart(fig_gauge, use_container_width=True)
             
         with col_t:
-            st.subheader("一、 深度预测与量化数值分析")
+            st.subheader("分析一： 深度预测与量化数值分析")
             st.info(f"当前底层因果森林引擎（OrthoIV）已锁定目标并自动切换为泛基准综合型城市防过热推演模式。算法在剔除了宏观多维混淆变量后确证：此类城市在现阶段缺乏可供深度消纳庞大冗余算力的重化工产业链矩阵。结合控制台实时拟定的 {st.session_state.c_invest:.1f} 亿元 资本投入，模型捕捉到了宏观不协调信号。在缺乏实体应用场景转化的约束下，该笔超前投资极易诱发明显的规模耗能效应，伴随显著的高碳代价风险。如左侧仪表盘所示，风险指数正随投资总额的攀升而逐步逼近临界过热区间。")
             
-            st.subheader("二、 跨部门协同防御与投资阻断建议")
+            st.subheader("建议二： 跨部门协同防御与投资阻断建议")
             st.success("前置合规性审查建议：事前仿真测算结果发出了结构性风险信号。针对规划方案中隐含的规模耗能反噬风险，相关合规部门宜在基础设施项目的立项核准阶段，加强效益比对。合理调减缺乏真实场景场景支撑的超前重资产算力或冗余光缆线路，从源头上防范固定资产低效扩张。\n\n"
                         "财政与生态环境部门：财政部门宜参考仿真阈值，建立专项债及财政支出的动态反馈调控机制，合理收紧涉边际能耗偏高项目的资金敞口，将财政资源有序导向软件生态开发与人力资本增量路径，维护地方公共杠杆率处于健康范围。同时，生态环境部门可将本模块生成的高碳代价预警阈值正式纳入区域性环境影响评估，保障全域绿色发展路径与总体碳排放约束的良性协同。")
             
@@ -326,28 +326,56 @@ elif st.session_state.page == 'mod2':
             st.plotly_chart(fig_gauge, use_container_width=True)
             
         with col_t:
-            st.subheader("一、 深度预测与量化数值分析")
+            st.subheader("分析一： 深度预测与量化数值分析")
             st.info(f"基于该市的产业图谱，当前分析引擎处于典型重工业城市碳锁定破局验证模式。经过数理因果逻辑链条推演，本系统确证：数字化基础设施要素一旦成功贯穿并嵌套入高耗能生产流水线，其所爆发的能效协同优化能够表现出显著的节能对冲效应（边际增碳规模被有效控制在较低水平）。依托控制台实时的 {total_invest:.1f} 亿元 总投资规模推演，模型动态研判当前资金规模能够跨越能耗爬坡阶段、全面发挥规模报酬红利的理论概率定格为 {breakthrough_score:.1f}%。")
             
-            st.subheader("二、 战略定力保持与精准爆破建议")
+            st.subheader("建议二： 战略定力保持与精准爆破建议")
             st.success("宏观战略统筹指导：若左侧仪表盘指针徘徊于拐点蓄力区间，表明城市转型正深陷基建土木期所伴随的能耗爬坡阶段。决策层需保持较强的宏观转型定力与政策连贯性，避免因短期局部耗能反弹而产生政策摇摆。应当保障持续、稳健的资金接续机制，使之顺利跨越边际效益拐点，确保整体数字化改造项目顺利释放节能成效。\n\n"
-                        "相关部门专项干预部署：为防范政策实施过程中出现的资金碎片化与边际效力递减，产业与财政部门宜构建高度集中的技术技改补贴机制。确保公共资源形成规模合力，靶向聚焦工业车辆调度、高炉优化与绿色原材料开采等核心高能耗、高排放节点实施流程重塑与精准引导，全面释放深层数智化转型释放的长期长期边际效应。")
+                        "相关部门专项干预部署：为防范政策实施过程中出现的资金碎片化与边际效力递减，产业与财政部门宜构建高度集中的技术技改补贴机制。确保公共资源形成规模合力，靶向聚焦工业车辆调度、高炉优化与绿色原材料开采等核心高能耗、高排放节点实施流程重塑与精准引导，全面释放深层数智化转型释放的长期边际效应。")
         
     bottom_navigation('mod2')
 
 # ------------------------------------------
-# 页面 5：模块三 (政策资金边际效费比(ROI)仿真测算)
+# 页面 5：模块三 (政策试错与未来三年轨迹预测)
 # ------------------------------------------
 elif st.session_state.page == 'mod3':
     st.button("返回沙盘主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
-    st.markdown("## 三、 政策资金边际效费比(ROI)仿真与特征解构")
+    st.markdown("## 三、 政策试错与三年轨迹预测 (ROI仿真测算)")
+    
+    # 构建未来三年轨迹预测数据
+    current_year = 2024
+    years = [f"{current_year}年 (当前)", f"{current_year+1}年", f"{current_year+2}年", f"{current_year+3}年"]
+    
+    # 基准轨迹（无政策干预，历史惯性微增）
+    base_traj = [base_carbon, base_carbon * 1.015, base_carbon * 1.028, base_carbon * 1.04]
+    
+    # 反事实推演干预轨迹（根据产业底色动态测算）
+    if current_engine_logic == "综合型":
+        # 综合型：基建耗能较高，降碳收敛较慢
+        traj_1 = base_carbon + infra_cost_penalty * 0.4 - reduce_effect * 0.2
+        traj_2 = base_carbon + infra_cost_penalty * 0.8 - reduce_effect * 0.6
+        traj_3 = pred_carbon
+    else:
+        # 重化工型：初期存在施工能耗爬坡，后期突破门槛实现规模降碳
+        traj_1 = base_carbon + infra_cost_penalty * 0.9 - reduce_effect * 0.3 
+        traj_2 = base_carbon + infra_cost_penalty * 1.0 - reduce_effect * 0.7 
+        traj_3 = pred_carbon
+        
+    interv_traj = [base_carbon, traj_1, traj_2, traj_3]
+    
+    df_traj = pd.DataFrame({
+        "年份": years * 2,
+        "碳排放量(Mt)": base_traj + interv_traj,
+        "推演情境": ["维持历史惯性 (无干预)"]*4 + ["执行动态预算 (政策试错)"]*4
+    })
     
     col3_1, col3_2 = st.columns([1, 1])
     with col3_1:
-        bar_data = pd.DataFrame({"宏观干预情境": ["维持历史惯性 (无政策干预)", "执行拟定预算 (主动施政方案)"], "预期年度碳排总量(Mt)": [base_carbon, pred_carbon]})
-        fig_bar = px.bar(bar_data, x="宏观干预情境", y="预期年度碳排总量(Mt)", text_auto='.2f', title="全域碳排放轨迹反事实预测对比", color="宏观干预情境", color_discrete_sequence=["#9E9E9E", C_GLACIER_TEAL])
-        fig_bar.update_layout(height=450)
-        st.plotly_chart(fig_bar, use_container_width=True)
+        fig_line = px.line(df_traj, x="年份", y="碳排放量(Mt)", color="推演情境", markers=True, 
+                           title="未来三年碳排放演化轨迹预测 (反事实推演)",
+                           color_discrete_sequence=["#9E9E9E", C_GLACIER_TEAL])
+        fig_line.update_layout(height=450)
+        st.plotly_chart(fig_line, use_container_width=True)
         
     with col3_2:
         if current_engine_logic == "综合型":
@@ -360,11 +388,11 @@ elif st.session_state.page == 'mod3':
         st.plotly_chart(fig_shap, use_container_width=True)
 
     st.subheader("分析一： 前置仿真与量化数值逆向解构分析")
-    st.info(f"本智能体基于博弈论特征剥离机制（SHAP），在保持数据链严密性的基础上完成了多要素边际效费比的解构。系统预测显示：若地方发展维持历史轨迹的长期依赖，该市年度基准碳排总量将保持在 {base_carbon:.2f} Mt 左右；而一旦执行控制台拟定的综合政策投资干预案，全市中长期碳排演化轨迹将产生结构性收敛，修正至动态值 {pred_carbon:.2f} Mt。右侧的特征瀑布图以严谨的数理回归结构，量化剖析了“深层光缆铺设、高质量外资引导、高端人才引育”三大要素工具在这一碳排落差中所创造的绝对边际效费比与最终效用方向。")
+    st.info("依托后台封装的正交因果森林与GBM引擎，系统赋予了决策者“政策试错”的能力。用户可通过左侧控制台，动态拖拽各项数字基建与外资引导资金的预算滑块，系统将在毫秒级延迟内，生成实施该干预政策后的未来三年碳排放轨迹预测（如左侧折线图所示），并同步输出SHAP瀑布图。这种“所见即所得”的推演机制，使得每一项宏观规划在正式下发前，都能在数字沙盘中经过千万次的“压力测试”，从源头上防范盲目决策带来的沉没成本。")
     
     st.subheader("建议二： 财税统筹与绩效审查优化核心建议")
-    st.success("构建基于边际效费比的财政绩效评价体系：相关部门可参考此量化瀑布归因，优化公共财政资金的配置结构，打破传统预算编制中的相对单一模式。针对图谱中呈现为正向边际能耗的项目，执行严格的预算绩效评价与资金调配优化，防范边际能耗过高项目的资金错配。\n\n"
-                "实施核心转型要素的乘数放大杠杆：在优化低效要素投入的同时，各相关职能部门应建立深度联席预审机制。在下达各周期阶段性减排考核任务时，务必协同地方金融监管力量，为那些在瀑布图谱中呈现为显著负向效益（即具备高效降碳与稳增长双重回报）的超优质要素渠道，统筹调配绿色转型专项转移支付，提供长期稳固的信用与政策支撑。确保地方存量公共资源，全面向高效率、精准化方向跃升。")
+    st.success("构建基于边际效费比的财政绩效评价体系：相关部门可参考右侧量化瀑布归因，优化公共财政资金的配置结构，打破传统预算编制中的固化配置模式。在压力测试环节中呈现出推高能耗特征的重资产配置方案，必须执行严格的预算压降与资金拦截动作，避免财政资源的低效错配。\n\n"
+                "实施核心转型要素的乘数放大战略：在优化低效投入的同时，各相关职能部门应依托轨迹预测建立深度预审机制。在下达阶段性减排考核任务时，务必协同地方金融资源，为那些在瀑布图谱中呈现为显著负向效益（即具备长效降碳与稳增长双重红利）的优质要素渠道，统筹调配绿色转型专项转移支付，提供长期稳固的政策红利支撑，确保区域经济的高效稳健跃升。")
     
     bottom_navigation('mod3')
 
@@ -394,7 +422,7 @@ elif st.session_state.page == 'mod4':
     st.subheader("建议二： 宏观政策决策建议与发展统筹指导意见")
     if total_invest < 4.0:
         st.warning("【系统自动定性识别：基础保障型保守策略】\n\n"
-                    "深度政策诊断模型研判：当前拟定配置方案的总体资金规模投入水平表现为相对保守。其规模体量远未触碰能够引发实体产业发生数字化质变的临界规模积聚门槛。由于总额受限，边际预算可能优先流向基础硬件系统的静态运维和既有资产折旧，难以全面形成产业聚集效应。系统预测：该级别投资无法在既定五年规划周期内激发出实质性的经济拉动，甚至潜藏着数字基建初期土木耗能的微弱反弹风险。\n\n"
+                    "深度政策诊断模型研判：当前拟定配置方案的总体资金规模投入水平表现为相对保守。其规模体量远未触及能够引发实体产业发生数字化质变的临界规模积聚门槛。由于总额受限，边际预算可能优先流向基础硬件系统的静态运维和既有资产折旧，难以全面形成产业聚集效应。系统预测：该级别投资无法在既定五年规划周期内激发出实质性的经济拉动，甚至潜藏着数字基建初期土木耗能的微弱反弹风险。\n\n"
                     "宏观发展破局指导规划：本项被动防守策略，仅在地方财政面临紧平衡承压、需要聚焦化解存量债务风险的特定时期，方可作为过渡性保底安排。建议宏观规划部门积极探索社会资本深度参与的多元化融资模式（如规范开展基础设施特许经营权或推进基础设施公募REITs基金）。通过政企资源高度协同与风险合理共担，打破单一公共财政投入带来的刚性紧平衡约束。")
     elif total_invest > 12.0:
         st.error("【系统自动定性识别：高危扩张型过载策略】\n\n"
