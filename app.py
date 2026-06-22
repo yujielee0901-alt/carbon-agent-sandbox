@@ -253,6 +253,45 @@ def get_report(city_name, current_data, logic, module_key):
         return custom_text
 
 
+# 报告精美卡片渲染引擎 (新增)
+def render_custom_report(text):
+    # 如果包含建议部分，进行切割渲染
+    if "【多部门协同决策指导建议】：" in text:
+        analysis_part, advice_part = text.split("【多部门协同决策指导建议】：")
+
+        # 1. 渲染上半部分：分析与推演过程
+        clean_analysis = analysis_part.replace("【系统数据分析与推演过程】：", "").replace("【系统预警与研判过程】：", "").replace(
+            "【反事实预测与SHAP归因过程】：", "").replace("【NSGA-III寻优与空间拓扑过程】：", "").strip()
+
+        st.markdown(f"""
+            <div style='background-color: #FAFAFA; border-left: 4px solid #1A3622; padding: 15px 20px; margin-top: 15px; margin-bottom: 25px; line-height: 1.8; font-size: 15px;'>
+                <h4 style='color: #1A3622; margin-top: 0px; margin-bottom: 10px;'>📊 深度数据研判与推演过程</h4>
+                {clean_analysis}
+            </div>
+        """, unsafe_allow_html=True)
+
+        # 2. 渲染下半部分：具体建议（分块加框，大标题）
+        st.markdown("<h3 style='color: #2C3539; font-weight: bold; margin-bottom: 15px;'>🎯 多部门协同决策指导方案</h3>",
+                    unsafe_allow_html=True)
+
+        advices = advice_part.strip().split("\n")
+        for adv in advices:
+            adv = adv.strip()
+            if adv:
+                # 自动识别“1. xxx局：”并拆分出大标题和内容
+                if "：" in adv and (adv.startswith("1.") or adv.startswith("2.") or adv.startswith("3.")):
+                    title, content = adv.split("：", 1)
+                    st.markdown(f"""
+                    <div style='background-color: #FFFFFF; border: 1px solid #E0E0E0; border-left: 5px solid #4DB8B3; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);'>
+                        <h4 style='color: #1A3622; font-size: 19px; margin-top: 0; margin-bottom: 12px; font-weight: bold;'>🏛️ {title}</h4>
+                        <p style='margin-bottom: 0; color: #444444; line-height: 1.7; font-size: 15px;'>{content}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
+                    st.markdown(f"<p>{adv}</p>", unsafe_allow_html=True)
+    else:
+        st.markdown(f"<div class='analysis-box'>{text}</div>", unsafe_allow_html=True)
+
 def normalize_to_100(val, col_name):
     min_val = df[col_name].min();
     max_val = df[col_name].max()
@@ -480,10 +519,8 @@ elif st.session_state.page == 'mod1':
         fig_bar.update_layout(height=400, yaxis_title="无量纲化测度值", legend_title=None, margin=dict(t=50, b=20))
         st.plotly_chart(fig_bar, use_container_width=True)
 
-    st.markdown("<div class='analysis-box'>", unsafe_allow_html=True)
-    report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m1")
-    st.markdown(report_text)
-    st.markdown("</div>", unsafe_allow_html=True)
+        report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m1")
+        render_custom_report(report_text)
 
     bottom_navigation('mod1')
 
@@ -552,10 +589,8 @@ elif st.session_state.page == 'mod2':
             st.plotly_chart(fig_heat, use_container_width=True)
 
     with col_t:
-        st.markdown("<div class='analysis-box'>", unsafe_allow_html=True)
         report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m2")
-        st.markdown(report_text)
-        st.markdown("</div>", unsafe_allow_html=True)
+        render_custom_report(report_text)
 
     bottom_navigation('mod2')
 
@@ -609,10 +644,8 @@ elif st.session_state.page == 'mod3':
         fig_shap.update_layout(height=450)
         st.plotly_chart(fig_shap, use_container_width=True)
 
-    st.markdown("<div class='analysis-box'>", unsafe_allow_html=True)
     report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m3")
-    st.markdown(report_text)
-    st.markdown("</div>", unsafe_allow_html=True)
+    render_custom_report(report_text)
 
     bottom_navigation('mod3')
 
@@ -642,9 +675,7 @@ elif st.session_state.page == 'mod4':
     fig_3d.update_layout(height=650)
     st.plotly_chart(fig_3d, use_container_width=True)
 
-    st.markdown("<div class='analysis-box'>", unsafe_allow_html=True)
     report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m4")
-    st.markdown(report_text)
-    st.markdown("</div>", unsafe_allow_html=True)
+    render_custom_report(report_text)
 
     bottom_navigation('mod4')
