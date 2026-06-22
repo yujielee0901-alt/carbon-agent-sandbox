@@ -8,7 +8,7 @@ import time
 # ==========================================
 # 0. 全局配置与PC政务大屏美学定义
 # ==========================================
-st.set_page_config(page_title="城市低碳投资智能辅助决策系统", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="城市低碳治理智能决策推演系统", layout="wide", initial_sidebar_state="expanded")
 
 C_CHARCOAL_SLATE = "#2C3539"
 C_DEEP_FOREST = "#1A3622"
