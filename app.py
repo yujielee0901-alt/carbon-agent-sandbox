@@ -318,7 +318,7 @@ if st.session_state.page == 'splash':
     st.markdown("<style>[data-testid='stSidebar'] {display: none;}</style>", unsafe_allow_html=True)
     st.markdown("<div style='height: 15vh;'></div>", unsafe_allow_html=True)
     st.markdown("<div class='spin-earth'>🌍</div>", unsafe_allow_html=True)
-    st.markdown("<div class='title-main'>城市低碳投资智能辅助决策系统</div>", unsafe_allow_html=True)
+    st.markdown("<div class='title-main'>城市低碳治理智能决策推演系统</div>", unsafe_allow_html=True)
     st.markdown("<div class='title-sub'>宏观政策事前仿真与多目标推演沙盘</div>", unsafe_allow_html=True)
     st.markdown("<br><p style='text-align: center; color: #888888;'>正在加载因果森林推演引擎与智库级报告底座...</p>",
                 unsafe_allow_html=True)
