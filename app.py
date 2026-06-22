@@ -496,29 +496,34 @@ elif st.session_state.page == 'mod1':
     st.button("返回系统主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
     st.markdown(f"## 一、 【{st.session_state.s_city}】宏观体检与数据要素断层推演")
 
-    col1, col2 = st.columns([1, 1])
     categories = ['深层算力(长途光缆)', '绿色资本(外资)', '智力资本(IT人才)', '浅层网络(宽带普及)', '产业融合(普惠金融)']
     city_scores = [normalize_to_100(city_data.get(k, 50), k) for k in ["长途光缆", "高质量外资", "IT人才密度", "宽带普及", "普惠金融"]]
     avg_scores = [normalize_to_100(df[k].mean(), k) for k in ["长途光缆", "高质量外资", "IT人才密度", "宽带普及", "普惠金融"]]
 
-    with col1:
+    # 左右排版布局：左图右文
+    col_left, col_right = st.columns([1.2, 1])
+
+    with col_left:
+        # 上图：雷达图
         fig_radar = go.Figure()
         fig_radar.add_trace(go.Scatterpolar(r=avg_scores, theta=categories, fill='toself', name='全省区域均值',
                                             line_color='rgba(100, 149, 237, 0.8)'))
         fig_radar.add_trace(
             go.Scatterpolar(r=city_scores, theta=categories, fill='toself', name=f'{st.session_state.s_city}',
                             line_color=C_DEEP_FOREST))
-        fig_radar.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100])), height=400,
+        fig_radar.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100])), height=350,
                                 title="宏观发展要素拓扑雷达图", margin=dict(t=50, b=20, l=40, r=40))
         st.plotly_chart(fig_radar, use_container_width=True)
 
-    with col2:
+        # 下图：柱状图
         df_gap = pd.DataFrame({"评估维度": categories, "区域考核得分": city_scores, "全省平均标尺": avg_scores})
         fig_bar = px.bar(df_gap, x="评估维度", y=["全省平均标尺", "区域考核得分"], barmode="group",
                          title="核心资源存量差异量化推演", color_discrete_sequence=["#B0BEC5", C_DEEP_FOREST])
-        fig_bar.update_layout(height=400, yaxis_title="无量纲化测度值", legend_title=None, margin=dict(t=50, b=20))
+        fig_bar.update_layout(height=350, yaxis_title="无量纲化测度值", legend_title=None, margin=dict(t=50, b=20))
         st.plotly_chart(fig_bar, use_container_width=True)
 
+    with col_right:
+        # 右侧：精美卡片分析
         report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m1")
         render_custom_report(report_text)
 
@@ -531,12 +536,13 @@ elif st.session_state.page == 'mod2':
     st.button("返回系统主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
     st.markdown("## 二、 门槛研判与报警监测溯源 (投资动态审查机制)")
 
-    col_g, col_t = st.columns([1, 1])
-
     x_grid = np.linspace(0, 20, 50)
     y_grid = np.linspace(0, 15, 50)
     X_mat, Y_mat = np.meshgrid(x_grid, y_grid)
     soft_invest = st.session_state.f_invest + st.session_state.i_invest
+
+    # 左右排版布局：左图右文
+    col_left, col_right = st.columns([1.2, 1])
 
     if current_engine_logic == "综合型":
         Z_risk = np.clip((X_mat / 8.0 * 100) - (Y_mat * 1.5), 0, 100)
@@ -549,7 +555,7 @@ elif st.session_state.page == 'mod2':
                                                   line=dict(width=2, color='black')), text=["📍 实时推演坐标"],
                                       textposition="top center", name="当前推演"))
 
-        with col_g:
+        with col_left:
             risk_score = min(st.session_state.c_invest / 8.0 * 100, 100)
             fig_gauge = go.Figure(
                 go.Indicator(mode="gauge+number", value=risk_score, title={'text': "基建冗余度与碳排反弹综合风险指数"},
@@ -559,7 +565,7 @@ elif st.session_state.page == 'mod2':
                                               {'range': [70, 100], 'color': C_WARNING_RED}],
                                     'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75,
                                                   'value': 70}}))
-            fig_gauge.update_layout(height=350, margin=dict(t=50, b=10))
+            fig_gauge.update_layout(height=300, margin=dict(t=50, b=10))
             st.plotly_chart(fig_gauge, use_container_width=True)
             st.plotly_chart(fig_heat, use_container_width=True)
 
@@ -574,7 +580,7 @@ elif st.session_state.page == 'mod2':
                                                   line=dict(width=2, color='black')), text=["📍 实时推演坐标"],
                                       textposition="top center", name="当前推演"))
 
-        with col_g:
+        with col_left:
             breakthrough_score = min(total_invest / 6.5 * 100, 100)
             fig_gauge = go.Figure(
                 go.Indicator(mode="gauge+number", value=breakthrough_score, title={'text': "转型势能积聚与门槛跨越指数"},
@@ -584,11 +590,12 @@ elif st.session_state.page == 'mod2':
                                               {'range': [80, 100], 'color': C_DEEP_FOREST}],
                                     'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75,
                                                   'value': 80}}))
-            fig_gauge.update_layout(height=350, margin=dict(t=50, b=10))
+            fig_gauge.update_layout(height=300, margin=dict(t=50, b=10))
             st.plotly_chart(fig_gauge, use_container_width=True)
             st.plotly_chart(fig_heat, use_container_width=True)
 
-    with col_t:
+    with col_right:
+        # 右侧：精美卡片分析
         report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m2")
         render_custom_report(report_text)
 
@@ -618,14 +625,15 @@ elif st.session_state.page == 'mod3':
     df_traj = pd.DataFrame({"预测年度": years * 2, "预计排量(Mt)": base_traj + interv_traj,
                             "政策预设情境": ["基准情形 (按既有趋势)"] * 4 + ["干预情形 (按本推演参数)"] * 4})
 
-    col3_1, col3_2 = st.columns([1, 1])
-    with col3_1:
+    # 左右排版布局：左图右文
+    col_left, col_right = st.columns([1.2, 1])
+
+    with col_left:
         fig_line = px.line(df_traj, x="预测年度", y="预计排量(Mt)", color="政策预设情境", markers=True, title="中短期碳排放演化轨迹比较预测",
                            color_discrete_sequence=["#9E9E9E", C_GLACIER_TEAL])
-        fig_line.update_layout(height=450)
+        fig_line.update_layout(height=350)
         st.plotly_chart(fig_line, use_container_width=True)
 
-    with col3_2:
         if current_engine_logic == "综合型":
             shap_data = pd.DataFrame({"核心政策干预工具": ["硬基建初期规模能耗估值", "高质量外资减排协同增量", "IT人才引入智力溢出红利"],
                                       "边际净影响值(ROI)": [infra_cost_penalty, -st.session_state.f_invest * 2.0,
@@ -641,11 +649,13 @@ elif st.session_state.page == 'mod3':
         fig_shap = px.bar(shap_data, x="边际净影响值(ROI)", y="核心政策干预工具", color="综合效用导向", orientation='h',
                           title="专项资金投入边际贡献(ROI)结构剥离",
                           color_discrete_map={"引发指标抬升 (+)": C_WARNING_RED, "助力指标下降 (-)": C_DEEP_FOREST})
-        fig_shap.update_layout(height=450)
+        fig_shap.update_layout(height=350)
         st.plotly_chart(fig_shap, use_container_width=True)
 
-    report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m3")
-    render_custom_report(report_text)
+    with col_right:
+        # 右侧：精美卡片分析
+        report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m3")
+        render_custom_report(report_text)
 
     bottom_navigation('mod3')
 
@@ -662,20 +672,26 @@ elif st.session_state.page == 'mod4':
     y_carbon_reduce = x_invest * (1.2 if current_engine_logic == "综合型" else 1.8) - np.random.normal(0, 2, n_points)
     z_gdp_growth = -0.1 * (x_invest - 10) ** 2 + 8 + np.random.normal(0, 1, n_points)
 
-    fig_3d = px.scatter_3d(x=x_invest, y=y_carbon_reduce, z=z_gdp_growth, color=z_gdp_growth,
-                           color_continuous_scale="RdBu_r",
-                           labels={'x': '财政预算上限评估(亿元)', 'y': '预测整体控制减排量(Mt)', 'z': '宏观经济关联变动率(%)'},
-                           title="区域治理多目标帕累托前沿寻优图谱")
+    # 左右排版布局：左图右文
+    col_left, col_right = st.columns([1.2, 1])
 
-    user_z_gdp = -0.1 * (total_invest - 10) ** 2 + 8
-    fig_3d.add_trace(go.Scatter3d(x=[total_invest], y=[base_carbon - pred_carbon], z=[user_z_gdp], mode='markers+text',
-                                  text=["📍 系统当前匹配坐标"], marker=dict(size=14, symbol='diamond', color='gold',
-                                                                    line=dict(color='black', width=3)),
-                                  textposition='top center'))
-    fig_3d.update_layout(height=650)
-    st.plotly_chart(fig_3d, use_container_width=True)
+    with col_left:
+        fig_3d = px.scatter_3d(x=x_invest, y=y_carbon_reduce, z=z_gdp_growth, color=z_gdp_growth,
+                               color_continuous_scale="RdBu_r",
+                               labels={'x': '财政预算上限评估(亿元)', 'y': '预测整体控制减排量(Mt)', 'z': '宏观经济关联变动率(%)'},
+                               title="区域治理多目标帕累托前沿寻优图谱")
+        user_z_gdp = -0.1 * (total_invest - 10) ** 2 + 8
+        fig_3d.add_trace(
+            go.Scatter3d(x=[total_invest], y=[base_carbon - pred_carbon], z=[user_z_gdp], mode='markers+text',
+                         text=["📍 系统当前匹配坐标"],
+                         marker=dict(size=14, symbol='diamond', color='gold', line=dict(color='black', width=3)),
+                         textposition='top center'))
+        fig_3d.update_layout(height=650)
+        st.plotly_chart(fig_3d, use_container_width=True)
 
-    report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m4")
-    render_custom_report(report_text)
+    with col_right:
+        # 右侧：精美卡片分析
+        report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m4")
+        render_custom_report(report_text)
 
     bottom_navigation('mod4')
