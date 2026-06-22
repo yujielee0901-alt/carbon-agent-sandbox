@@ -10,10 +10,10 @@ import time
 # ==========================================
 st.set_page_config(page_title="城市低碳投资智能辅助决策系统", layout="wide", initial_sidebar_state="expanded")
 
-C_CHARCOAL_SLATE = "#2C3539"  
-C_DEEP_FOREST = "#1A3622"      
-C_GLACIER_TEAL = "#4DB8B3"     
-C_WARNING_RED = "#D32F2F"      
+C_CHARCOAL_SLATE = "#2C3539"
+C_DEEP_FOREST = "#1A3622"
+C_GLACIER_TEAL = "#4DB8B3"
+C_WARNING_RED = "#D32F2F"
 
 st.markdown(f"""
     <style>
@@ -147,7 +147,18 @@ city_advice_db = {
         "m4": "【NSGA-III寻优与空间拓扑过程】：在极端的微排放基数、完备的基础网络与扭曲的金融支撑下，NSGA-III算法瞬间收敛，生成了极为罕见的“生态静默守成与精尖农资软赋能战略”帕累托解集。该曲面空间极其紧凑，算法向决策层下达了不可辩驳的指令：不要试图改变周口的农业与轻工基因，更不要去碰重型数字资产。最优策略就是死死捂住这5.40Mt的低碳基本盘，利用现成的光缆与人才，把全部机动资源投入到打通普惠金融血脉与普及轻量级SaaS应用中去，这是该市维持经济独特性与绝对安全的唯一最优数学解。\n\n【多部门协同决策指导建议】：\n\n1. 市委、市政府核心领导班子：系统生成的帕累托底线，是对本市发展战略的最高确认。建议决策中枢以极强的战略定力对抗外部“大搞数据中心”的盲目风气。将本报告作为市级智库的定海神针，向上级表明周口坚守“绿色农业中枢+轻量化数字治理”这一黄金赛道的决心，绝不涉足重型涉碳资产。\n2. 市宏观经济研究院与统计局：建议全面重构全市的宏观数字考核体系。剔除所有涉及“新增光缆里程、IDC机架数量”等重资产考核项，将“涉农企业上云率、普惠金融线上获贷率”定为核心KPI。用这套定制化的算法边界，保障城市的行政系统永远运行在帕累托最优的健康轨道上。"
     }
 }
-
+# ==========================================
+# 1. 初始化状态机 (补充这部分代码)
+# ==========================================
+if 'page' not in st.session_state: st.session_state.page = 'splash'
+if 'city_category' not in st.session_state: st.session_state.city_category = "内置：典型重化工业主导城市"
+if 's_city' not in st.session_state: st.session_state.s_city = "河南省焦作市"
+if 'custom_logic' not in st.session_state: st.session_state.custom_logic = "偏向重化工业主导"
+if 'c_invest' not in st.session_state: st.session_state.c_invest = 4.8
+if 'f_invest' not in st.session_state: st.session_state.f_invest = 2.5
+if 'i_invest' not in st.session_state: st.session_state.i_invest = 1.0
+if 'custom_data' not in st.session_state: 
+    st.session_state.custom_data = {"长途光缆": 1500.0, "高质量外资": 10.0, "IT人才密度": 1.5, "宽带普及": 200.0, "普惠金融": 280.0, "基准碳排": 50.0}
 # 全量内置数据字典 (包含25市)
 built_in_stats = {
     "河南省郑州市": {"长途光缆": 1942.64, "高质量外资": 12.29, "IT人才密度": 10.99, "宽带普及": 774, "普惠金融": 337.22, "基准碳排": 52.37},
@@ -186,14 +197,15 @@ for c_name, c_data in built_in_stats.items():
 
 df = pd.DataFrame(embedded_data)
 
+
 # 特征欧氏距离相似度匹配引擎
 def find_closest_city_advice(input_data, is_heavy):
     target_type = "典型重化工业主导城市" if is_heavy else "泛基准与综合型城市"
     pool = df[df["类型"] == target_type]
-    
+
     best_city = None
     min_dist = float('inf')
-    
+
     # 提取用于比对的核心特征，并进行极差归一化预处理以防量纲失真
     features = ["长途光缆", "高质量外资", "IT人才密度", "基准碳排"]
     for idx, row in pool.iterrows():
@@ -204,19 +216,20 @@ def find_closest_city_advice(input_data, is_heavy):
             rng = f_max - f_min if f_max > f_min else 1.0
             diff = (input_data[f] - row[f]) / rng
             dist += diff ** 2
-        
+
         if dist < min_dist:
             min_dist = dist
             best_city = row["城市"]
-            
+
     clean_best_city = best_city.replace("河南省", "").replace("山西省", "").replace("山东省", "").replace("安徽省", "")
     return clean_best_city
+
 
 # 报告提取引擎
 def get_report(city_name, current_data, logic, module_key):
     # 提取纯净市名
     clean_name = city_name.replace("河南省", "").replace("山西省", "").replace("山东省", "").replace("安徽省", "")
-    
+
     if clean_name in city_advice_db:
         return city_advice_db[clean_name][module_key]
     else:
@@ -228,10 +241,13 @@ def get_report(city_name, current_data, logic, module_key):
         safe_city = mirror_city if mirror_city in city_advice_db else ("焦作市" if is_heavy else "郑州市")
         return prefix + city_advice_db[safe_city][module_key]
 
+
 def normalize_to_100(val, col_name):
-    min_val = df[col_name].min(); max_val = df[col_name].max()
+    min_val = df[col_name].min();
+    max_val = df[col_name].max()
     if max_val == min_val: return 50
     return max(0, min((val - min_val) / (max_val - min_val) * 100, 100))
+
 
 def bottom_navigation(current_page):
     st.markdown("---")
@@ -241,7 +257,9 @@ def bottom_navigation(current_page):
     cols = st.columns(3)
     for i, k in enumerate(nav_keys):
         if cols[i].button(pages[k], key=f"nav_{current_page}_{k}", use_container_width=True):
-            st.session_state.page = k; st.rerun()
+            st.session_state.page = k;
+            st.rerun()
+
 
 # ------------------------------------------
 # 页面 0：欢迎页
@@ -252,7 +270,8 @@ if st.session_state.page == 'splash':
     st.markdown("<div class='spin-earth'>🌍</div>", unsafe_allow_html=True)
     st.markdown("<div class='title-main'>城市低碳投资智能辅助决策系统</div>", unsafe_allow_html=True)
     st.markdown("<div class='title-sub'>宏观政策事前仿真与多目标推演沙盘</div>", unsafe_allow_html=True)
-    st.markdown("<br><p style='text-align: center; color: #888888;'>正在加载因果森林推演引擎与智库级报告底座...</p>", unsafe_allow_html=True)
+    st.markdown("<br><p style='text-align: center; color: #888888;'>正在加载因果森林推演引擎与智库级报告底座...</p>",
+                unsafe_allow_html=True)
     time.sleep(2.0)
     st.session_state.page = 'city_select'
     st.rerun()
@@ -264,37 +283,45 @@ if st.session_state.page == 'city_select':
     st.markdown("<style>[data-testid='stSidebar'] {display: none;}</style>", unsafe_allow_html=True)
     st.markdown("<div style='height: 8vh;'></div>", unsafe_allow_html=True)
     st.markdown("<h2 style='text-align:center;'>📍 宏观决策仿真数据底座初始化</h2>", unsafe_allow_html=True)
-    
+
     col_spacer1, col_main, col_spacer2 = st.columns([1, 4, 1])
     with col_main:
         with st.container(border=True):
             category_opts = ["内置：典型重化工业主导城市", "内置：泛基准与综合型城市", "外部：自定义录入宏观数据"]
-            cat_choice = st.radio("第一步：界定数据归属与产业结构类型", category_opts, index=category_opts.index(st.session_state.city_category))
-            
+            cat_choice = st.radio("第一步：界定数据归属与产业结构类型", category_opts,
+                                  index=category_opts.index(st.session_state.city_category))
+
             s_city_choice = st.session_state.s_city
             custom_logic_choice = st.session_state.custom_logic
-            
+
             if cat_choice == "内置：典型重化工业主导城市":
                 available_cities = df[df["类型"] == "典型重化工业主导城市"]["城市"].tolist()
                 idx = available_cities.index(s_city_choice) if s_city_choice in available_cities else 0
                 s_city_choice = st.selectbox("第二步：选择重点分析城市", available_cities, index=idx)
-                
+
             elif cat_choice == "内置：泛基准与综合型城市":
                 available_cities = df[df["类型"] == "泛基准与综合型城市"]["城市"].tolist()
                 idx = available_cities.index(s_city_choice) if s_city_choice in available_cities else 0
                 s_city_choice = st.selectbox("第二步：选择基准对照城市", available_cities, index=idx)
-                
+
             else:
-                s_city_choice = st.text_input("第二步：设定系统推演目标名称", value=s_city_choice if s_city_choice not in df["城市"].tolist() else "未命名区域")
+                s_city_choice = st.text_input("第二步：设定系统推演目标名称", value=s_city_choice if s_city_choice not in df[
+                    "城市"].tolist() else "未命名区域")
                 custom_logic_choice = st.radio("核定该区域的主导产业底色（用于匹配算法核心逻辑与镜像智库）", ["偏向重化工业主导", "偏向综合与泛基准型"])
                 st.markdown("*(请依次录入核心基础宏观指标)*")
                 c1, c2 = st.columns(2)
-                st.session_state.custom_data["长途光缆"] = c1.number_input("长途光缆线路总长 (公里)", value=float(st.session_state.custom_data["长途光缆"]))
-                st.session_state.custom_data["高质量外资"] = c2.number_input("年度实际使用外资 (亿元)", value=float(st.session_state.custom_data["高质量外资"]))
-                st.session_state.custom_data["IT人才密度"] = c1.number_input("数字产业从业规模 (万人)", value=float(st.session_state.custom_data["IT人才密度"]))
-                st.session_state.custom_data["基准碳排"] = c2.number_input("期初核算碳排总量 (百万吨)", value=float(st.session_state.custom_data["基准碳排"]))
-                st.session_state.custom_data["宽带普及"] = c1.number_input("区域宽带接入体量 (万户)", value=float(st.session_state.custom_data["宽带普及"]))
-                st.session_state.custom_data["普惠金融"] = c2.number_input("普惠金融发展指数", value=float(st.session_state.custom_data["普惠金融"]))
+                st.session_state.custom_data["长途光缆"] = c1.number_input("长途光缆线路总长 (公里)", value=float(
+                    st.session_state.custom_data["长途光缆"]))
+                st.session_state.custom_data["高质量外资"] = c2.number_input("年度实际使用外资 (亿元)", value=float(
+                    st.session_state.custom_data["高质量外资"]))
+                st.session_state.custom_data["IT人才密度"] = c1.number_input("数字产业从业规模 (万人)", value=float(
+                    st.session_state.custom_data["IT人才密度"]))
+                st.session_state.custom_data["基准碳排"] = c2.number_input("期初核算碳排总量 (百万吨)", value=float(
+                    st.session_state.custom_data["基准碳排"]))
+                st.session_state.custom_data["宽带普及"] = c1.number_input("区域宽带接入体量 (万户)", value=float(
+                    st.session_state.custom_data["宽带普及"]))
+                st.session_state.custom_data["普惠金融"] = c2.number_input("普惠金融发展指数", value=float(
+                    st.session_state.custom_data["普惠金融"]))
 
         st.markdown("<br>", unsafe_allow_html=True)
         if st.button("数据载入完毕，启动系统决策沙盘", type="primary", use_container_width=True):
@@ -321,37 +348,52 @@ if st.session_state.page not in ['splash', 'city_select']:
     with st.sidebar:
         st.markdown("### ⚙️ 宏观推演参数控制台")
         st.markdown("---")
-        
+
         cat_opts = ["内置：典型重化工业主导城市", "内置：泛基准与综合型城市", "外部：自定义录入宏观数据"]
         new_cat = st.radio("一、界定数据源与产业底色", cat_opts, index=cat_opts.index(st.session_state.city_category), key="sb_cat")
-        
+
         if new_cat == "内置：典型重化工业主导城市":
             avail = df[df["类型"] == "典型重化工业主导城市"]["城市"].tolist()
             idx = avail.index(st.session_state.s_city) if st.session_state.s_city in avail else 0
             new_city = st.selectbox("二、设定推演标的", avail, index=idx, key="sb_city_heavy")
             if new_cat != st.session_state.city_category or new_city != st.session_state.s_city:
-                st.session_state.city_category = new_cat; st.session_state.s_city = new_city; st.rerun()
-                
+                st.session_state.city_category = new_cat;
+                st.session_state.s_city = new_city;
+                st.rerun()
+
         elif new_cat == "内置：泛基准与综合型城市":
             avail = df[df["类型"] == "泛基准与综合型城市"]["城市"].tolist()
             idx = avail.index(st.session_state.s_city) if st.session_state.s_city in avail else 0
             new_city = st.selectbox("二、设定对照基准", avail, index=idx, key="sb_city_comp")
             if new_cat != st.session_state.city_category or new_city != st.session_state.s_city:
-                st.session_state.city_category = new_cat; st.session_state.s_city = new_city; st.rerun()
-                
+                st.session_state.city_category = new_cat;
+                st.session_state.s_city = new_city;
+                st.rerun()
+
         else:
             new_city = st.text_input("二、输入拟诊断区域名称", value=st.session_state.s_city, key="sb_city_cust")
-            new_logic = st.radio("设定产业底色以匹配算法", ["偏向重化工业主导", "偏向综合与泛基准型"], index=0 if "重化工" in st.session_state.custom_logic else 1, key="sb_logic")
+            new_logic = st.radio("设定产业底色以匹配算法", ["偏向重化工业主导", "偏向综合与泛基准型"],
+                                 index=0 if "重化工" in st.session_state.custom_logic else 1, key="sb_logic")
             if new_cat != st.session_state.city_category or new_city != st.session_state.s_city or new_logic != st.session_state.custom_logic:
-                st.session_state.city_category = new_cat; st.session_state.s_city = new_city; st.session_state.custom_logic = new_logic; st.rerun()
-                
+                st.session_state.city_category = new_cat;
+                st.session_state.s_city = new_city;
+                st.session_state.custom_logic = new_logic;
+                st.rerun()
+
             st.markdown("*（手动微调存量数据实时映射响应）*")
             c1, c2 = st.columns(2)
-            st.session_state.custom_data["长途光缆"] = c1.number_input("光缆(km)", value=float(st.session_state.custom_data["长途光缆"]), key="sb_n1")
-            st.session_state.custom_data["高质量外资"] = c2.number_input("外资(亿)", value=float(st.session_state.custom_data["高质量外资"]), key="sb_n2")
-            st.session_state.custom_data["IT人才密度"] = c1.number_input("人才(万)", value=float(st.session_state.custom_data["IT人才密度"]), key="sb_n3")
-            st.session_state.custom_data["基准碳排"] = c2.number_input("碳排(Mt)", value=float(st.session_state.custom_data["基准碳排"]), key="sb_n4")
-            
+            st.session_state.custom_data["长途光缆"] = c1.number_input("光缆(km)",
+                                                                   value=float(st.session_state.custom_data["长途光缆"]),
+                                                                   key="sb_n1")
+            st.session_state.custom_data["高质量外资"] = c2.number_input("外资(亿)",
+                                                                    value=float(st.session_state.custom_data["高质量外资"]),
+                                                                    key="sb_n2")
+            st.session_state.custom_data["IT人才密度"] = c1.number_input("人才(万)", value=float(
+                st.session_state.custom_data["IT人才密度"]), key="sb_n3")
+            st.session_state.custom_data["基准碳排"] = c2.number_input("碳排(Mt)",
+                                                                   value=float(st.session_state.custom_data["基准碳排"]),
+                                                                   key="sb_n4")
+
         st.markdown("---")
         st.markdown("三、政策干预力度动态调节 (亿元)")
         st.markdown("*拖动滑块，系统将触发过程性反事实仿真推演*")
@@ -362,11 +404,12 @@ if st.session_state.page not in ['splash', 'city_select']:
     total_invest = st.session_state.c_invest + st.session_state.f_invest + st.session_state.i_invest
     base_carbon = city_data["基准碳排"]
     if current_engine_logic == "综合型":
-        infra_cost_penalty = st.session_state.c_invest * 3.5 
-        reduce_effect = (st.session_state.f_invest * 2.0) + (st.session_state.i_invest * 2.5) 
+        infra_cost_penalty = st.session_state.c_invest * 3.5
+        reduce_effect = (st.session_state.f_invest * 2.0) + (st.session_state.i_invest * 2.5)
     else:
-        infra_cost_penalty = st.session_state.c_invest * 0.8 
-        reduce_effect = (st.session_state.c_invest * 2.8) + (st.session_state.f_invest * 1.5) + (st.session_state.i_invest * 1.0)
+        infra_cost_penalty = st.session_state.c_invest * 0.8
+        reduce_effect = (st.session_state.c_invest * 2.8) + (st.session_state.f_invest * 1.5) + (
+                    st.session_state.i_invest * 1.0)
     pred_carbon = base_carbon + infra_cost_penalty - reduce_effect
 
 # ------------------------------------------
@@ -375,7 +418,7 @@ if st.session_state.page not in ['splash', 'city_select']:
 if st.session_state.page == 'menu':
     st.markdown(f"## 🌍 【{st.session_state.s_city}】城市低碳投资智能辅助决策系统")
     st.info(f"系统声明：本系统最终目标为提供宏观数据的深度挖掘与推演结果以指导决策，不直接参与行政决策制定。所有输出均基于双重机器学习算法，旨在为地方发改、工信与生态部门提供严格的量化事实与前沿理论数据支撑。")
-    
+
     with st.container(border=True):
         st.markdown("### 一、 宏观体检与要素断层推演")
         st.markdown("该模块依托面板数据构建多维极差标准化拓扑。旨在全面解构城市在信息基础设施、智力资本与产业数字化进程中的存量差异，为科学编制补短板专项资金提供数据基础。")
@@ -402,31 +445,35 @@ if st.session_state.page == 'menu':
 elif st.session_state.page == 'mod1':
     st.button("返回系统主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
     st.markdown(f"## 一、 【{st.session_state.s_city}】宏观体检与数据要素断层推演")
-    
+
     col1, col2 = st.columns([1, 1])
     categories = ['深层算力(长途光缆)', '绿色资本(外资)', '智力资本(IT人才)', '浅层网络(宽带普及)', '产业融合(普惠金融)']
     city_scores = [normalize_to_100(city_data.get(k, 50), k) for k in ["长途光缆", "高质量外资", "IT人才密度", "宽带普及", "普惠金融"]]
     avg_scores = [normalize_to_100(df[k].mean(), k) for k in ["长途光缆", "高质量外资", "IT人才密度", "宽带普及", "普惠金融"]]
-    
+
     with col1:
         fig_radar = go.Figure()
-        fig_radar.add_trace(go.Scatterpolar(r=avg_scores, theta=categories, fill='toself', name='全省区域均值', line_color='rgba(100, 149, 237, 0.8)'))
-        fig_radar.add_trace(go.Scatterpolar(r=city_scores, theta=categories, fill='toself', name=f'{st.session_state.s_city}', line_color=C_DEEP_FOREST))
-        fig_radar.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100])), height=400, title="宏观发展要素拓扑雷达图", margin=dict(t=50, b=20, l=40, r=40))
+        fig_radar.add_trace(go.Scatterpolar(r=avg_scores, theta=categories, fill='toself', name='全省区域均值',
+                                            line_color='rgba(100, 149, 237, 0.8)'))
+        fig_radar.add_trace(
+            go.Scatterpolar(r=city_scores, theta=categories, fill='toself', name=f'{st.session_state.s_city}',
+                            line_color=C_DEEP_FOREST))
+        fig_radar.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100])), height=400,
+                                title="宏观发展要素拓扑雷达图", margin=dict(t=50, b=20, l=40, r=40))
         st.plotly_chart(fig_radar, use_container_width=True)
-        
+
     with col2:
         df_gap = pd.DataFrame({"评估维度": categories, "区域考核得分": city_scores, "全省平均标尺": avg_scores})
         fig_bar = px.bar(df_gap, x="评估维度", y=["全省平均标尺", "区域考核得分"], barmode="group",
                          title="核心资源存量差异量化推演", color_discrete_sequence=["#B0BEC5", C_DEEP_FOREST])
         fig_bar.update_layout(height=400, yaxis_title="无量纲化测度值", legend_title=None, margin=dict(t=50, b=20))
         st.plotly_chart(fig_bar, use_container_width=True)
-        
+
     st.markdown("<div class='analysis-box'>", unsafe_allow_html=True)
     report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m1")
     st.markdown(report_text)
     st.markdown("</div>", unsafe_allow_html=True)
-            
+
     bottom_navigation('mod1')
 
 # ------------------------------------------
@@ -435,52 +482,70 @@ elif st.session_state.page == 'mod1':
 elif st.session_state.page == 'mod2':
     st.button("返回系统主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
     st.markdown("## 二、 门槛研判与报警监测溯源 (投资动态审查机制)")
-    
+
     col_g, col_t = st.columns([1, 1])
-    
-    x_grid = np.linspace(0, 20, 50) 
-    y_grid = np.linspace(0, 15, 50) 
+
+    x_grid = np.linspace(0, 20, 50)
+    y_grid = np.linspace(0, 15, 50)
     X_mat, Y_mat = np.meshgrid(x_grid, y_grid)
     soft_invest = st.session_state.f_invest + st.session_state.i_invest
-    
+
     if current_engine_logic == "综合型":
         Z_risk = np.clip((X_mat / 8.0 * 100) - (Y_mat * 1.5), 0, 100)
-        fig_heat = go.Figure(data=go.Contour(x=x_grid, y=y_grid, z=Z_risk, colorscale="Reds", contours=dict(showlabels=True)))
-        fig_heat.update_layout(title="区域资本投放风险预测二维分布图", xaxis_title="数字基建配额 (亿元)", yaxis_title="外资与人才引导资金 (亿元)", height=350, margin=dict(t=40, b=10, l=10, r=10))
-        fig_heat.add_trace(go.Scatter(x=[st.session_state.c_invest], y=[soft_invest], mode='markers+text', marker=dict(color='gold', size=16, symbol='star', line=dict(width=2, color='black')), text=["📍 实时推演坐标"], textposition="top center", name="当前推演"))
-        
-        with col_g:
-            risk_score = min(st.session_state.c_invest / 8.0 * 100, 100) 
-            fig_gauge = go.Figure(go.Indicator(mode = "gauge+number", value = risk_score, title = {'text': "基建冗余度与碳排反弹综合风险指数"},
-                gauge = {'axis': {'range': [0, 100]}, 'bar': {'color': C_CHARCOAL_SLATE},
-                         'steps': [{'range': [0, 40], 'color': C_GLACIER_TEAL}, {'range': [40, 70], 'color': 'rgba(255, 215, 0, 0.6)'}, {'range': [70, 100], 'color': C_WARNING_RED}],
-                         'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': 70}}))
-            fig_gauge.update_layout(height=350, margin=dict(t=50, b=10))
-            st.plotly_chart(fig_gauge, use_container_width=True)
-            st.plotly_chart(fig_heat, use_container_width=True)
-            
-    else:
-        Z_break = np.clip(((X_mat + Y_mat) / 6.5 * 100), 0, 100)
-        fig_heat = go.Figure(data=go.Contour(x=x_grid, y=y_grid, z=Z_break, colorscale="Greens", contours=dict(showlabels=True)))
-        fig_heat.update_layout(title="碳锁定破局势能演化二维分布图", xaxis_title="数字基建配额 (亿元)", yaxis_title="外资与人才引导资金 (亿元)", height=350, margin=dict(t=40, b=10, l=10, r=10))
-        fig_heat.add_trace(go.Scatter(x=[st.session_state.c_invest], y=[soft_invest], mode='markers+text', marker=dict(color='gold', size=16, symbol='star', line=dict(width=2, color='black')), text=["📍 实时推演坐标"], textposition="top center", name="当前推演"))
+        fig_heat = go.Figure(
+            data=go.Contour(x=x_grid, y=y_grid, z=Z_risk, colorscale="Reds", contours=dict(showlabels=True)))
+        fig_heat.update_layout(title="区域资本投放风险预测二维分布图", xaxis_title="数字基建配额 (亿元)", yaxis_title="外资与人才引导资金 (亿元)",
+                               height=350, margin=dict(t=40, b=10, l=10, r=10))
+        fig_heat.add_trace(go.Scatter(x=[st.session_state.c_invest], y=[soft_invest], mode='markers+text',
+                                      marker=dict(color='gold', size=16, symbol='star',
+                                                  line=dict(width=2, color='black')), text=["📍 实时推演坐标"],
+                                      textposition="top center", name="当前推演"))
 
         with col_g:
-            breakthrough_score = min(total_invest / 6.5 * 100, 100) 
-            fig_gauge = go.Figure(go.Indicator(mode = "gauge+number", value = breakthrough_score, title = {'text': "转型势能积聚与门槛跨越指数"},
-                gauge = {'axis': {'range': [0, 100]}, 'bar': {'color': C_CHARCOAL_SLATE},
-                         'steps': [{'range': [0, 50], 'color': 'rgba(255, 99, 71, 0.6)'}, {'range': [50, 80], 'color': 'rgba(255, 215, 0, 0.6)'}, {'range': [80, 100], 'color': C_DEEP_FOREST}],
-                         'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': 80}}))
+            risk_score = min(st.session_state.c_invest / 8.0 * 100, 100)
+            fig_gauge = go.Figure(
+                go.Indicator(mode="gauge+number", value=risk_score, title={'text': "基建冗余度与碳排反弹综合风险指数"},
+                             gauge={'axis': {'range': [0, 100]}, 'bar': {'color': C_CHARCOAL_SLATE},
+                                    'steps': [{'range': [0, 40], 'color': C_GLACIER_TEAL},
+                                              {'range': [40, 70], 'color': 'rgba(255, 215, 0, 0.6)'},
+                                              {'range': [70, 100], 'color': C_WARNING_RED}],
+                                    'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75,
+                                                  'value': 70}}))
             fig_gauge.update_layout(height=350, margin=dict(t=50, b=10))
             st.plotly_chart(fig_gauge, use_container_width=True)
             st.plotly_chart(fig_heat, use_container_width=True)
-            
+
+    else:
+        Z_break = np.clip(((X_mat + Y_mat) / 6.5 * 100), 0, 100)
+        fig_heat = go.Figure(
+            data=go.Contour(x=x_grid, y=y_grid, z=Z_break, colorscale="Greens", contours=dict(showlabels=True)))
+        fig_heat.update_layout(title="碳锁定破局势能演化二维分布图", xaxis_title="数字基建配额 (亿元)", yaxis_title="外资与人才引导资金 (亿元)",
+                               height=350, margin=dict(t=40, b=10, l=10, r=10))
+        fig_heat.add_trace(go.Scatter(x=[st.session_state.c_invest], y=[soft_invest], mode='markers+text',
+                                      marker=dict(color='gold', size=16, symbol='star',
+                                                  line=dict(width=2, color='black')), text=["📍 实时推演坐标"],
+                                      textposition="top center", name="当前推演"))
+
+        with col_g:
+            breakthrough_score = min(total_invest / 6.5 * 100, 100)
+            fig_gauge = go.Figure(
+                go.Indicator(mode="gauge+number", value=breakthrough_score, title={'text': "转型势能积聚与门槛跨越指数"},
+                             gauge={'axis': {'range': [0, 100]}, 'bar': {'color': C_CHARCOAL_SLATE},
+                                    'steps': [{'range': [0, 50], 'color': 'rgba(255, 99, 71, 0.6)'},
+                                              {'range': [50, 80], 'color': 'rgba(255, 215, 0, 0.6)'},
+                                              {'range': [80, 100], 'color': C_DEEP_FOREST}],
+                                    'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75,
+                                                  'value': 80}}))
+            fig_gauge.update_layout(height=350, margin=dict(t=50, b=10))
+            st.plotly_chart(fig_gauge, use_container_width=True)
+            st.plotly_chart(fig_heat, use_container_width=True)
+
     with col_t:
         st.markdown("<div class='analysis-box'>", unsafe_allow_html=True)
         report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m2")
         st.markdown(report_text)
         st.markdown("</div>", unsafe_allow_html=True)
-        
+
     bottom_navigation('mod2')
 
 # ------------------------------------------
@@ -489,36 +554,47 @@ elif st.session_state.page == 'mod2':
 elif st.session_state.page == 'mod3':
     st.button("返回系统主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
     st.markdown("## 三、 政策试错与三年轨迹仿真测算")
-    
+
     current_year = 2024
-    years = [f"{current_year}年", f"{current_year+1}年", f"{current_year+2}年", f"{current_year+3}年"]
+    years = [f"{current_year}年", f"{current_year + 1}年", f"{current_year + 2}年", f"{current_year + 3}年"]
     base_traj = [base_carbon, base_carbon * 1.015, base_carbon * 1.028, base_carbon * 1.04]
-    
+
     if current_engine_logic == "综合型":
         traj_1 = base_carbon + infra_cost_penalty * 0.4 - reduce_effect * 0.2
         traj_2 = base_carbon + infra_cost_penalty * 0.8 - reduce_effect * 0.6
         traj_3 = pred_carbon
     else:
-        traj_1 = base_carbon + infra_cost_penalty * 0.9 - reduce_effect * 0.3 
-        traj_2 = base_carbon + infra_cost_penalty * 1.0 - reduce_effect * 0.7 
+        traj_1 = base_carbon + infra_cost_penalty * 0.9 - reduce_effect * 0.3
+        traj_2 = base_carbon + infra_cost_penalty * 1.0 - reduce_effect * 0.7
         traj_3 = pred_carbon
-        
+
     interv_traj = [base_carbon, traj_1, traj_2, traj_3]
-    df_traj = pd.DataFrame({"预测年度": years * 2, "预计排量(Mt)": base_traj + interv_traj, "政策预设情境": ["基准情形 (按既有趋势)"]*4 + ["干预情形 (按本推演参数)"]*4})
-    
+    df_traj = pd.DataFrame({"预测年度": years * 2, "预计排量(Mt)": base_traj + interv_traj,
+                            "政策预设情境": ["基准情形 (按既有趋势)"] * 4 + ["干预情形 (按本推演参数)"] * 4})
+
     col3_1, col3_2 = st.columns([1, 1])
     with col3_1:
-        fig_line = px.line(df_traj, x="预测年度", y="预计排量(Mt)", color="政策预设情境", markers=True, title="中短期碳排放演化轨迹比较预测", color_discrete_sequence=["#9E9E9E", C_GLACIER_TEAL])
+        fig_line = px.line(df_traj, x="预测年度", y="预计排量(Mt)", color="政策预设情境", markers=True, title="中短期碳排放演化轨迹比较预测",
+                           color_discrete_sequence=["#9E9E9E", C_GLACIER_TEAL])
         fig_line.update_layout(height=450)
         st.plotly_chart(fig_line, use_container_width=True)
-        
+
     with col3_2:
         if current_engine_logic == "综合型":
-            shap_data = pd.DataFrame({"核心政策干预工具": ["硬基建初期规模能耗估值", "高质量外资减排协同增量", "IT人才引入智力溢出红利"], "边际净影响值(ROI)": [infra_cost_penalty, -st.session_state.f_invest*2.0, -st.session_state.i_invest*2.5], "综合效用导向": ["引发指标抬升 (+)", "助力指标下降 (-)", "助力指标下降 (-)"]})
+            shap_data = pd.DataFrame({"核心政策干预工具": ["硬基建初期规模能耗估值", "高质量外资减排协同增量", "IT人才引入智力溢出红利"],
+                                      "边际净影响值(ROI)": [infra_cost_penalty, -st.session_state.f_invest * 2.0,
+                                                      -st.session_state.i_invest * 2.5],
+                                      "综合效用导向": ["引发指标抬升 (+)", "助力指标下降 (-)", "助力指标下降 (-)"]})
         else:
-            shap_data = pd.DataFrame({"核心政策干预工具": ["长途工业光缆赋能优化红利", "高质量外资技术转移效应", "数字人才组织管理改善效益", "基础工程建设期施工附加能耗"], "边际净影响值(ROI)": [-st.session_state.c_invest*2.8, -st.session_state.f_invest*1.5, -st.session_state.i_invest*1.0, infra_cost_penalty], "综合效用导向": ["助力指标下降 (-)", "助力指标下降 (-)", "助力指标下降 (-)", "引发指标抬升 (+)"]})
-        
-        fig_shap = px.bar(shap_data, x="边际净影响值(ROI)", y="核心政策干预工具", color="综合效用导向", orientation='h', title="专项资金投入边际贡献(ROI)结构剥离", color_discrete_map={"引发指标抬升 (+)":C_WARNING_RED, "助力指标下降 (-)":C_DEEP_FOREST})
+            shap_data = pd.DataFrame({"核心政策干预工具": ["长途工业光缆赋能优化红利", "高质量外资技术转移效应", "数字人才组织管理改善效益", "基础工程建设期施工附加能耗"],
+                                      "边际净影响值(ROI)": [-st.session_state.c_invest * 2.8,
+                                                      -st.session_state.f_invest * 1.5,
+                                                      -st.session_state.i_invest * 1.0, infra_cost_penalty],
+                                      "综合效用导向": ["助力指标下降 (-)", "助力指标下降 (-)", "助力指标下降 (-)", "引发指标抬升 (+)"]})
+
+        fig_shap = px.bar(shap_data, x="边际净影响值(ROI)", y="核心政策干预工具", color="综合效用导向", orientation='h',
+                          title="专项资金投入边际贡献(ROI)结构剥离",
+                          color_discrete_map={"引发指标抬升 (+)": C_WARNING_RED, "助力指标下降 (-)": C_DEEP_FOREST})
         fig_shap.update_layout(height=450)
         st.plotly_chart(fig_shap, use_container_width=True)
 
@@ -526,7 +602,7 @@ elif st.session_state.page == 'mod3':
     report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m3")
     st.markdown(report_text)
     st.markdown("</div>", unsafe_allow_html=True)
-    
+
     bottom_navigation('mod3')
 
 # ------------------------------------------
@@ -535,23 +611,29 @@ elif st.session_state.page == 'mod3':
 elif st.session_state.page == 'mod4':
     st.button("返回系统主控室", on_click=lambda: st.session_state.update({'page': 'menu'}))
     st.markdown("## 四、 多约束条件下的帕累托决策指导方案生成")
-    
+
     np.random.seed(42)
     n_points = 250
     x_invest = np.random.uniform(1, 20, n_points)
     y_carbon_reduce = x_invest * (1.2 if current_engine_logic == "综合型" else 1.8) - np.random.normal(0, 2, n_points)
-    z_gdp_growth = -0.1 * (x_invest - 10)**2 + 8 + np.random.normal(0, 1, n_points)
-    
-    fig_3d = px.scatter_3d(x=x_invest, y=y_carbon_reduce, z=z_gdp_growth, color=z_gdp_growth, color_continuous_scale="RdBu_r", labels={'x':'财政预算上限评估(亿元)', 'y':'预测整体控制减排量(Mt)', 'z':'宏观经济关联变动率(%)'}, title="区域治理多目标帕累托前沿寻优图谱")
-    
-    user_z_gdp = -0.1 * (total_invest - 10)**2 + 8
-    fig_3d.add_trace(go.Scatter3d(x=[total_invest], y=[base_carbon-pred_carbon], z=[user_z_gdp], mode='markers+text', text=["📍 系统当前匹配坐标"], marker=dict(size=14, symbol='diamond', color='gold', line=dict(color='black', width=3)), textposition='top center'))
+    z_gdp_growth = -0.1 * (x_invest - 10) ** 2 + 8 + np.random.normal(0, 1, n_points)
+
+    fig_3d = px.scatter_3d(x=x_invest, y=y_carbon_reduce, z=z_gdp_growth, color=z_gdp_growth,
+                           color_continuous_scale="RdBu_r",
+                           labels={'x': '财政预算上限评估(亿元)', 'y': '预测整体控制减排量(Mt)', 'z': '宏观经济关联变动率(%)'},
+                           title="区域治理多目标帕累托前沿寻优图谱")
+
+    user_z_gdp = -0.1 * (total_invest - 10) ** 2 + 8
+    fig_3d.add_trace(go.Scatter3d(x=[total_invest], y=[base_carbon - pred_carbon], z=[user_z_gdp], mode='markers+text',
+                                  text=["📍 系统当前匹配坐标"], marker=dict(size=14, symbol='diamond', color='gold',
+                                                                    line=dict(color='black', width=3)),
+                                  textposition='top center'))
     fig_3d.update_layout(height=650)
     st.plotly_chart(fig_3d, use_container_width=True)
-    
+
     st.markdown("<div class='analysis-box'>", unsafe_allow_html=True)
     report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m4")
     st.markdown(report_text)
     st.markdown("</div>", unsafe_allow_html=True)
-    
+
     bottom_navigation('mod4')
