@@ -379,15 +379,40 @@ else:
                 st.session_state.city_category = new_cat;
                 st.session_state.s_city = new_city;
                 st.rerun()
-        else:
-            new_city = st.text_input("二、目标推演区域", value=st.session_state.s_city)
-            new_logic = st.radio("核定底层算法基盘", ["偏向重化工业主导", "偏向综合与服务型"],
-                                 index=0 if "重化工" in st.session_state.custom_logic else 1)
-            if new_cat != st.session_state.city_category or new_city != st.session_state.s_city or new_logic != st.session_state.custom_logic:
-                st.session_state.city_category = new_cat;
-                st.session_state.s_city = new_city;
-                st.session_state.custom_logic = new_logic;
-                st.rerun()
+                else:
+                new_city = st.text_input("二、目标推演区域", value=st.session_state.s_city, key="sb_city_cust")
+                new_logic = st.radio("核定底层算法基盘", ["偏向重化工业主导", "偏向综合与服务型"],
+                                     index=0 if "重化工" in st.session_state.custom_logic else 1, key="sb_logic")
+
+                st.markdown("*（手动微调以下宏观底盘数据，实时触发图谱演算）*")
+                c1, c2 = st.columns(2)
+                new_n1 = c1.number_input("长途光缆(km)", value=float(st.session_state.custom_data["长途光缆"]))
+                new_n2 = c2.number_input("外资(亿元)", value=float(st.session_state.custom_data["外资引进与对外开放程度"]))
+                new_n3 = c1.number_input("人才(万人)", value=float(st.session_state.custom_data["IT人才密度"]))
+                new_n4 = c2.number_input("基准碳排(Mt)", value=float(st.session_state.custom_data["基准碳排"]))
+                new_n5 = c1.number_input("宽带普及(万户)", value=float(st.session_state.custom_data["宽带普及"]))
+                new_n6 = c2.number_input("普惠金融", value=float(st.session_state.custom_data["普惠金融"]))
+
+                # 监听任何一个状态的变化并重新渲染引擎
+                if (new_cat != st.session_state.city_category or
+                        new_city != st.session_state.s_city or
+                        new_logic != st.session_state.custom_logic or
+                        new_n1 != st.session_state.custom_data["长途光缆"] or
+                        new_n2 != st.session_state.custom_data["外资引进与对外开放程度"] or
+                        new_n3 != st.session_state.custom_data["IT人才密度"] or
+                        new_n4 != st.session_state.custom_data["基准碳排"] or
+                        new_n5 != st.session_state.custom_data["宽带普及"] or
+                        new_n6 != st.session_state.custom_data["普惠金融"]):
+                    st.session_state.city_category = new_cat
+                    st.session_state.s_city = new_city
+                    st.session_state.custom_logic = new_logic
+                    st.session_state.custom_data["长途光缆"] = new_n1
+                    st.session_state.custom_data["外资引进与对外开放程度"] = new_n2
+                    st.session_state.custom_data["IT人才密度"] = new_n3
+                    st.session_state.custom_data["基准碳排"] = new_n4
+                    st.session_state.custom_data["宽带普及"] = new_n5
+                    st.session_state.custom_data["普惠金融"] = new_n6
+                    st.rerun()
 
         st.markdown("---")
         st.markdown("三、政策干预资金参数域 (亿元)")
