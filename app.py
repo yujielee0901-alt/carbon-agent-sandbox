@@ -33,7 +33,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 1. 深度智库预载入 (大幅扩写M1分析过程，极度压缩M1政策建议)
+# 1. 深度智库预载入 
 # ==========================================
 city_advice_db = {
     "焦作": {"m1": "【系统数据分析与推演过程】：通过高维极差空间拓扑与雷达图矩阵比对，本系统提取该市各项存量特征并与全域样本均值标尺进行深度映射。数据量化分析显示，该市在浅层宽带普及与普惠金融维度的无量纲得分已高度接近全域均线，这表明区域内消费端的数字红利已经基本饱和，继续投入的边际效益将显著递减。然而，在真正支撑重化工底座转型与实体经济高质量发展的深层核心要素上（长途光缆仅1020公里，IT人才仅0.27万人），系统柱状断层推演直观暴露出极大的结构性落差。本系统的综合诊断客观反映出，该区域的底层信息基础设施建设规模及其承载能力，已经明显滞后于实体经济庞大的制造规模与转型需求，形成了严重的“硬资产缺位、软技术断层”的数字要素空心化现象。\n\n【宏观政策指导方案】\n\n1. 固投专项重构：暂缓消费级基站新建，将专项债券额度全面向深层工业光缆与算力枢纽倾斜。\n2. 孤岛数据清查：重点排查重资产企业“数据孤岛”，加快核心生产线的数据采集与上云步伐。"},
@@ -54,7 +54,7 @@ city_advice_db = {
     "商丘": {"m1": "【系统数据分析与推演过程】：作为极为重要的豫东综合交通枢纽，商丘在系统的深度空间诊断中暴露出极其骇人的“资本孤岛”闭塞特征。其年度实际使用外资仅为0.02亿元，在全样本地市中几乎处于物理清零状态。同时，面对70.75Mt的高昂枢纽碳排基数，其数字人才仅有微不足道的0.38万人，但深层光缆却粗放地铺设了2747公里。雷达拓扑矩阵严厉地指出核心病灶：该市单纯利用交通区位优势大搞粗放型物流与路网基础建设，但完全未能建立吸收外部先进绿色资本与数字节点调控技术的生态。庞大而沉重的交通与基建物流量正在无序裸奔，极度缺乏算法算力中枢的智慧调度，这是导致其全域运转效率低下且碳排居高不下的致命缺陷。\n\n【宏观政策指导方案】\n\n1. 智慧物流靶向破局：彻底推翻低端占地型物流招商传统，100%倾斜引进具备国际先进碳足迹追踪与运筹调度技术的科技平台企业。\n2. 基建全面软化升级：立刻冻结新增的单纯路网土建计划，后续交通预算强制划归为“车路协同与数据调度控制平台”专属改造专款。"},
     "信阳": {"m1": "【系统数据分析与推演过程】：信阳在全样本极差测度中，展现出极其刺眼且违和的“重资产严重过载”病态特征。作为一个以生态立市、碳排基数被严格控制在23.33Mt的绿色轻资产城市，其地下竟然疯狂埋设了高达4855公里的深层长途光缆。然而，面对如此庞大惊人的通信资产，其IT高级人才仅有0.37万，外资引入仅0.61亿。系统的雷达拓扑矩阵发出了最高级别的红色断层熔断警报：该市前期的硬基建投资规划已经彻底失控，完全脱离了本地生态旅游与轻质农产品的实际承载吞吐力。天量的地下光缆正处于无人专业维护、无高频业务跑冒的深度沉睡状态，形成了吞噬巨额地方财政与运维电力的沉没成本黑洞。\n\n【宏观政策指导方案】\n\n1. 行政清算与全面冻结：全面叫停一切打着“智慧城市、新基建”名义的市政发包工程，将防范无效基建举债与资产闲置定为纪律铁律。\n2. 冗余资产折价出让：积极主动向沿海大型互联网算力节点及外部大厂推销本地廉价的过剩骨干带宽通道，竭力挽回财政沉淀损失。"},
     "周口": {"m1": "【系统数据分析与推演过程】：周口在全域面板测度模型中，投射出了一个极具反差潜力的“低碳排(5.4Mt)、高底盘(3070公里光缆)”的发展轮廓。其物理基建宽带网络与初级智力人才事实上已经具备了相对优良的储备。然而，其普惠金融指数却跌至全域倒数象限，外资规模严重萎靡。系统调用极差拓扑分析明确诊断出核心堵点：该市的硬性物理准备已然就绪，但区域经济活力严重受制于落后闭塞的金融供血体系。海量庞大的农业与轻质加工微小主体，因为得不到普惠金融在数字层面的滴灌赋能，根本无法将优良的网络基建转化为真实的数字经济产值，形成了一种极其典型且遗憾的“底层管道通畅但无水可流”的金融传输断层。\n\n【宏观政策指导方案】\n\n1. 普惠金融强制打通：利用庞大的网络底座强制赋能驻地金融机构，大规模推行针对涉农及轻工小微主体的全线上无抵押数据信贷。\n2. 极简应用补贴引流：将振兴重心从修路搭桥的土木工程全面转向软件采买，政府出资通过金融杠杆补贴农机与溯源系统，盘活网络。"},
-    # 其他城市默认映射至通用模板
+    # 默认兜底
     "默认重工": {"m1": "【系统数据分析与推演过程】：该区域在多维特征矩阵中呈现出典型的重工业资产依赖与能耗排量高基数锁定特征。空间要素极差诊断发现，其现有的深层网络基础结构未能有效触达并覆盖核心排碳生产线，硬件信息铺设存在明显的浅层化、表象化与局域化特征。由于极度缺乏深层底层控制算法与物联网闭环的接入，导致庞大工业终端的排量居高不下，数字化赋能效应被严重稀释。\n\n【宏观政策指导方案】\n\n1. 基建底层延伸打通：强制将机动预算精准投向重工业真实生产场景的物联网传感器布设与深层光缆铺设。\n2. 资本刚性定向管控：严厉剥离非涉碳、非核心制造领域的无效财政注资，集中火力攻坚高耗能节点。"},
     "默认综合": {"m1": "【系统数据分析与推演过程】：该区域在雷达拓扑中表现为典型的轻资产、低碳基准的综合服务型面貌。基础硬件网络覆盖率展现出极大的广度与充足度，但系统预警其面临极高的有效应用场景缺失及算力空转风险。底层诊断指出，区域内数字高阶人才储备出现严重断层，且极度缺乏能够引导软性服务生态健康演化的靶向高阶外资注入与强力的创新金融杠杆支撑。\n\n【宏观政策指导方案】\n\n1. 轻资产云端软赋能：立即停建一切新增的实体IDC机房工程，预算全面转向针对服务业的云端SaaS平台使用补贴。\n2. 软要素政策强倾斜：财政杠杆与配套政策必须全力、毫无保留地向专业技术引流与普惠金融降息补贴倾斜。"}
 }
@@ -92,7 +92,6 @@ built_in_stats = {
 
 embedded_data = []
 for c_name, c_data in built_in_stats.items():
-    # 严格精准界定6个重工锁定型，其余19个为综合服务型
     is_heavy = any(h in c_name for h in ["焦作", "平顶山", "安阳", "鹤壁", "长治", "晋城"])
     c_type = "重工锁定型城市" if is_heavy else "综合服务型城市"
     row = {"城市": c_name, "类型": c_type}
@@ -128,7 +127,7 @@ def find_closest_city_advice(input_data, is_heavy):
     return re.sub(r'^.*?省|^.*?自治区|市$', '', best_city)
 
 def generate_dynamic_report(city_name, current_data, logic, module_key, c_inv, f_inv, i_inv):
-    """基于控制台交互滑块的动态推演结果生成引擎 (含联动政策指导方案)"""
+    """大模型动态推演生成引擎"""
     total = c_inv + f_inv + i_inv
     if total <= 0: total = 0.001
 
@@ -141,7 +140,7 @@ def generate_dynamic_report(city_name, current_data, logic, module_key, c_inv, f
             analysis += f"演化溯源解析：由于该区域缺乏重化工业底层场景依托，系统捕捉到其对重资产硬件投资引发的碳溢出表现出极端敏感性。模型测算当前的“基建冗余度与碳排反弹风险指数”为 **{risk_score:.1f}**。这意味着当前的硬基建参数配比"
             if risk_score > 70:
                 analysis += "已经严重击穿模型设定的高危警戒红线。算法物理推导表明，脱离实际业务场景的纯算力设施堆砌不仅无法引发有效降碳协同，反而会因为高昂的初期建设碳排与极低效的日常运维空耗，导致整体预期碳排演化轨迹发生不可逆的恶性倒挂灾难。"
-                advice = "【宏观政策指导方案】\n\n1. 投资一票否决：立即中止一切大型算力中心及骨干网扩建的前期立项，环评直接触发过热红线阻断机制。\n2. 沉没成本清算：强制启动对存量及在建基建项目的专项效能耗损审计，切断形成无效沉淀资金的黑洞流向。"
+                advice = "【宏观政策指导方案】\n\n1. 投资一票否决：立即中止一切大型算力中心及骨干网扩建的前期立项，环评直接触发过热红线阻断机制。\n2. 沉没成本清算：强制启动对存量及在建基建项目的专项能耗审计，切断形成无效沉淀资金的黑洞流向。"
             elif risk_score > 40:
                 analysis += "目前正处于极其敏感的高频观察域内。模型仿真显示，硬件初期的物理土建附加能耗正在剧烈抵消有限的降碳效益，如果不立即放缓物理施工节奏并优先回填软性数据业务应用，系统随时可能向右侧的恶性高碳红区滑落。"
                 advice = "【宏观政策指导方案】\n\n1. 减量替代准入：对新建网络工程强制实行“降耗指标对赌”，无法出具业务承接确权合同的一律暂缓审批。\n2. 绿色门槛前置：设定极为苛刻的PUE指标，新增算力平台必须承诺80%以上采用高比例绿电驱动以锁定生态底盘。"
@@ -190,19 +189,22 @@ def generate_dynamic_report(city_name, current_data, logic, module_key, c_inv, f
         dist = np.sqrt((c_inv - opt_c)**2 + (f_inv - opt_f)**2 + (i_inv - opt_i)**2)
         match_score = max(0, 100 - (dist / total) * 100) if total > 0 else 0
 
-        analysis = f"【系统数据分析与推演过程】：面对保障宏观平稳增长、强力推进碳排收敛与严防地方财政失控这一极其棘手的“宏观不可能三角”，系统最高级中枢调用了NSGA-III非支配排序多目标遗传运筹算法。算法引擎在严格锚定当前交互面板设定的 **{total:.1f} 亿元** 财政机动总约束盘前提下，以“宏观经济规模的稳健向上拉动”与“碳排放物理总量的深度收敛”为不可妥协的双刚性底线，在包含数百万种离散参数组合的高维解空间内执行了极其苛刻的全局定向启发式搜索，最终收敛并计算出理论极限状态下的三维帕累托最优前沿演化曲面。\n\n全局极值寻优与空间拓扑评价：基于系统对 **{city_name}** 底层要素禀赋与产业基因模型的读取提取，算法冰冷且客观地锁定出该总预算级别下的唯一全局最优极值点配比方案应严格执行：数字硬基建物理规模控制在 **{opt_c:.1f}亿**，外资与先进生态引导资金保持在 **{opt_f:.1f}亿**，高阶数字人才结构优化补贴设定在 **{opt_i:.1f}亿**。系统运筹决策层将此比例组合高维定性为“{strategy_name}”。\n\n多目标决策拟合度深度诊断：系统正在抓取您当前控制台输入的实时交互参数，与底层算法推演出的全局理论帕累托最优解开展空间坐标拟合比对，综合欧氏测度拟合度为 **{match_score:.1f}%**。"
+        analysis = f"【系统数据分析与推演过程】：面对保障宏观平稳增长、强力推进碳排收敛与严防地方财政失控这一极其棘手的“宏观不可能三角”，系统最高级中枢调用了NSGA-III非支配排序多目标遗传运筹算法。算法引擎在严格锚定当前交互面板设定的 **{total:.1f} 亿元** 财政机动总约束盘前提下，以“宏观经济规模的稳健向上拉动”与“碳排放物理总量的深度收敛”为不可妥协的双刚性底线，在包含数百万种离散参数组合的高维解空间内执行了极其苛刻的全局定向启发式搜索，最终收敛并计算出理论极限状态下的三维帕累托最优前沿演化曲面。\n\n全局极值寻优与空间拓扑评价：基于系统对 **{city_name}** 底层要素禀赋与产业基因模型的读取提取，算法冰冷且客观地锁定出该总预算级别下的唯一全局最优极值点配比方案应严格执行：数字硬基建物理规模控制在 **{opt_c:.1f}亿**，外资与先进生态引导资金保持在 **{opt_f:.1f}亿**，高阶数字人才结构优化补贴设定在 **{opt_i:.1f}亿**。系统运筹决策层将此比例组合高维定性为“{strategy_name}”。"
+
+        # 注意：这里植入了特殊的分隔符，用于前端UI分离排版
+        fit_diagnosis = f"【多目标决策拟合度深度诊断】：系统正在抓取您当前控制台输入的实时交互参数，与底层算法推演出的全局理论帕累托最优解开展空间坐标拟合比对，综合欧氏测度拟合度为 **{match_score:.1f}%**。"
 
         if match_score >= 85:
-            analysis += "这一极高评分证实，您当前设置的宏观预算配置框架已极度精准地逼近甚至咬合了帕累托最优演化解集曲面。该数学架构极其可靠地确保了在绝不触碰地方城投隐性债务高压线的大前提下，能够实现区域宏观经济正向拉动与绿色生态降碳绝对效益的全面、系统性最大化释放。"
+            fit_diagnosis += "这一极高评分证实，您当前设置的宏观预算配置框架已极度精准地逼近甚至咬合了帕累托最优演化解集曲面。该数学架构极其可靠地确保了在绝不触碰地方城投隐性债务高压线的大前提下，能够实现区域宏观经济正向拉动与绿色生态降碳绝对效益的全面、系统性最大化释放。"
             advice = "【宏观政策指导方案】\n\n1. 法定预算防火墙确立：将本系统算法界定的最优分配比例参数直接固化为地方人民代表大会的法定预算红线，严禁任何形式的临时性干预或长官意志截留。\n2. 颗粒度穿透垂直下沉：在宏观指标已确认达优的背景下，迅速联手发改部门建立微观经济穿透考核节点，死死盯住巨量资金在具体企业端的真实算法转化效率。"
         elif match_score >= 60:
-            analysis += "评分表明，您当前的各项资金流分布结构整体上仍处于基础的安全可行域空间内，没有发生灾难性的偏离。但在多维博弈层面仍存在一定的系统内耗与资金冗余折损。系统强烈建议您参考上述算法严格界定的黄金分割理论参数值，对各子要素的投入倾斜方向实施精细的结构性微操微调与空间纠偏。"
+            fit_diagnosis += "评分表明，您当前的各项资金流分布结构整体上仍处于基础的安全可行域空间内，没有发生灾难性的偏离。但在多维博弈层面仍存在一定的系统内耗与资金冗余折损。系统强烈建议您参考上述算法严格界定的黄金分割理论参数值，对各子要素的投入倾斜方向实施精细的结构性微操微调与空间纠偏。"
             advice = "【宏观政策指导方案】\n\n1. 跨部门强制机动调剂：立刻启动行政中期预算重构研判，利用行政高压将发现的低效土建预算缺口强制按比例切块，强行平移注入至引资引智的短板盘面中。\n2. 效能对赌式拨付机制：彻底摒弃传统的一次性全额拨款模式。要求基层执行部门必须自证下一阶段的数据能向85%拟合度加速收敛，否则即刻触发财政拨付熔断机制。"
         else:
-            analysis += "极低的评分触发了最高维度的系统警告！数据表明当前设定存在极为严重的非理性预算错配。推演运行轨迹已经完全脱离了帕累托安全曲面的保护范围，如果付诸实施，将不可避免地触发局部海量资源空转陷阱与全域能耗逆向剧烈反弹的系统级恶性崩盘。必须立即悬崖勒马，冻结该粗放型规划方案，强制向系统计算出的最优参数集实施全面并轨重置。"
+            fit_diagnosis += "极低的评分触发了最高维度的系统警告！数据表明当前设定存在极为严重的非理性预算错配。推演运行轨迹已经完全脱离了帕累托安全曲面的保护范围，如果付诸实施，将不可避免地触发局部海量资源空转陷阱与全域能耗逆向剧烈反弹的系统级恶性崩盘。必须立即悬崖勒马，冻结该粗放型规划方案，强制向系统计算出的最优参数集实施全面并轨重置。"
             advice = "【宏观政策指导方案】\n\n1. 冻结重置铁血纪律：立刻下达最高行政指令，全面冻结全域内一切严重脱离算法可行域的扩张性大基建项目的前期立项与流转，坚决推倒重来。\n2. 审计问责机制前置：纪检监委与审计机构应当将系统的最优坐标参数直接纳入追溯红线依据，对无视科学底线、盲目大干快上的决策主体实施极为严厉的离任高压问责。"
 
-        return analysis + "\n" + advice
+        return analysis + "\n" + fit_diagnosis + "\n" + advice
 
 def get_report(city_name, current_data, logic, module_key, c_inv=0, f_inv=0, i_inv=0):
     clean_name = re.sub(r'^.*?省|^.*?自治区|市$', '', city_name)
@@ -217,9 +219,10 @@ def get_report(city_name, current_data, logic, module_key, c_inv=0, f_inv=0, i_i
         return generate_dynamic_report(city_name, current_data, engine_logic, module_key, c_inv, f_inv, i_inv)
 
 # ------------------------------------------
-# 4. 渲染核心与全局组件
+# 4. 全局公共渲染组件
 # ------------------------------------------
 def render_custom_report(text):
+    """渲染模块一至三的通用图文报告"""
     if "【宏观政策指导方案】" in text:
         analysis_part, advice_part = text.split("【宏观政策指导方案】")
         clean_analysis = analysis_part.replace("【系统数据分析与推演过程】：", "").strip()
@@ -457,7 +460,7 @@ else:
             render_custom_report(get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m3", st.session_state.c_invest, st.session_state.f_invest, st.session_state.i_invest))
         bottom_navigation('mod3')
 
-    # 模块四
+    # 模块四 (重构的“田”字排版)
     elif st.session_state.page == 'mod4':
         st.button("中止当前演算并返回主系统", on_click=lambda: st.session_state.update({'page': 'menu'}))
         st.markdown(f"## 四、 【{st.session_state.s_city}】全局多约束帕累托最优生成指令")
@@ -467,13 +470,56 @@ else:
         y_cb = x_inv * (1.2 if current_engine_logic == "综合型" else 1.8) - np.random.normal(0, 2, n_pts)
         z_gdp = -0.1 * (x_inv - 10) ** 2 + 8 + np.random.normal(0, 1, n_pts)
 
-        col_left, col_right = st.columns([1.2, 1])
-        with col_left:
+        # 调取并拆分动态推演结果文本
+        report_text = get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m4", st.session_state.c_invest, st.session_state.f_invest, st.session_state.i_invest)
+        
+        main_part, fit_part, advice_part = "", "", ""
+        if "【多目标决策拟合度深度诊断】：" in report_text and "【宏观政策指导方案】" in report_text:
+            p1, rest = report_text.split("【多目标决策拟合度深度诊断】：")
+            p2, p3 = rest.split("【宏观政策指导方案】")
+            main_part = p1.replace("【系统数据分析与推演过程】：", "").strip()
+            fit_part = p2.strip()
+            advice_part = p3.strip()
+
+        # 上半部分：图表(左) + 基础动态分析(右)
+        col_top_left, col_top_right = st.columns([1.2, 1])
+        with col_top_left:
             fig_3d = px.scatter_3d(x=x_inv, y=y_cb, z=z_gdp, color=z_gdp, color_continuous_scale="RdBu_r", labels={'x': '宏观总盘(亿)', 'y': '预测目标减排(Mt)', 'z': 'GDP预计变动(%)'}, title="NSGA-III算法生成高维帕累托最优可行域前沿曲面")
             fig_3d.add_trace(go.Scatter3d(x=[total_invest], y=[base_carbon - pred_carbon], z=[-0.1 * (total_invest - 10) ** 2 + 8], mode='markers+text', text=["📍 当前交互参数动态测度坐标"], marker=dict(size=14, symbol='diamond', color='gold', line=dict(color='black', width=3)), textposition='top center'))
             fig_3d.update_layout(height=650)
             st.plotly_chart(fig_3d, use_container_width=True)
             
-        with col_right:
-            render_custom_report(get_report(st.session_state.s_city, city_data, st.session_state.custom_logic, "m4", st.session_state.c_invest, st.session_state.f_invest, st.session_state.i_invest))
+        with col_top_right:
+            st.markdown(f"""
+                <div style='background-color: #FAFAFA; border-left: 4px solid #1A3622; padding: 15px 20px; margin-top: 15px; margin-bottom: 25px; line-height: 1.8; font-size: 15px; text-align: justify;'>
+                    <h4 style='color: #1A3622; margin-top: 0px; margin-bottom: 12px; font-weight: bold;'>📊 动态数据推演与底层逻辑解析</h4>
+                    {main_part}
+                </div>
+            """, unsafe_allow_html=True)
+
+        # 下半部分：拟合度诊断(左) + 政策指导(右)，实现左右平齐排版
+        col_bot_left, col_bot_right = st.columns([1.2, 1])
+        with col_bot_left:
+            st.markdown(f"""
+                <div style='background-color: #F8F9FA; border-left: 4px solid #2C3539; padding: 15px 20px; margin-top: 0px; margin-bottom: 25px; line-height: 1.8; font-size: 15px; text-align: justify;'>
+                    <h4 style='color: #2C3539; margin-top: 0px; margin-bottom: 12px; font-weight: bold;'>🎯 决策拟合度深度诊断</h4>
+                    {fit_part}
+                </div>
+            """, unsafe_allow_html=True)
+
+        with col_bot_right:
+            st.markdown("<h4 style='color: #2C3539; font-weight: bold; margin-top: 0px; margin-bottom: 15px;'>🎯 宏观政策指导方案</h4>", unsafe_allow_html=True)
+            for adv in advice_part.split("\n"):
+                adv = adv.strip()
+                if adv and "：" in adv and adv[0].isdigit():
+                    title, content = adv.split("：", 1)
+                    st.markdown(f"""
+                    <div style='background-color: #FFFFFF; border: 1px solid #E0E0E0; border-left: 5px solid #4DB8B3; padding: 18px; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.03);'>
+                        <h5 style='color: #1A3622; font-size: 16px; margin-top: 0; margin-bottom: 8px; font-weight: bold;'>🏛️ {title}</h5>
+                        <p style='margin-bottom: 0; color: #444; line-height: 1.6; font-size: 14.5px; text-align: justify;'>{content}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                elif adv:
+                    st.markdown(f"<p>{adv}</p>", unsafe_allow_html=True)
+
         bottom_navigation('mod4')
