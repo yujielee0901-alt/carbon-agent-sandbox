@@ -284,7 +284,7 @@ def normalize_to_100(val, col_name):
 
 def bottom_navigation(current_page):
     st.markdown("---")
-    st.markdown("### 🎛️ 系统决策矩阵快速切换")
+    st.markdown("### 🎛️ 加权规范化评价矩阵快速切换")
     pages = {'mod1': "模块一：宏观体检与断层推演", 'mod2': "模块二：门槛研判与动态预警", 'mod3': "模块三：政策试错与轨迹推演", 'mod4': "模块四：多目标寻优与组合决策"}
     cols = st.columns(3)
     for i, k in enumerate([k for k in pages.keys() if k != current_page]):
@@ -411,7 +411,7 @@ else:
 
     # 导航菜单
     if st.session_state.page == 'menu':
-        st.markdown(f"## 🌍 【{st.session_state.s_city}】低碳投资智能辅助决策系统")
+        st.markdown(f"## 🌍 【{st.session_state.s_city}】低碳投资智能辅助系统")
         st.info(
             "系统声明：内置高精度双重机器学习（OrthoIV-CF）与遗传运筹算法（NSGA-III）。本系统生成的文字描述、趋势图谱与政策匹配指导，均由您在左侧控制台输入的滑块参数通过底层算法引擎动态高频演算生成，为您提供极致严密的数学论证支撑。")
         for num, mod, title, desc in [("一", "mod1", "宏观体检与数据要素断层推演", "构建多维高阶极差矩阵，深度剥离揭示区域在数字底层基座与智力软性储备的结构性断层。"),
