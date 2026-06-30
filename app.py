@@ -311,7 +311,7 @@ if st.session_state.page == 'splash':
 elif st.session_state.page == 'city_select':
     st.markdown("<style>[data-testid='stSidebar'] {display: none;}</style>", unsafe_allow_html=True)
     st.markdown("<div style='height: 8vh;'></div>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align:center;'>📍 宏观决策仿真数据底座初始化</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align:center;'>📍 宏观推演仿真数据底座初始化</h2>", unsafe_allow_html=True)
 
     col_spacer1, col_main, col_spacer2 = st.columns([1, 4, 1])
     with col_main:
@@ -346,7 +346,7 @@ elif st.session_state.page == 'city_select':
                     st.session_state.custom_data["基准碳排"]))
 
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("全域面板特征挂载完毕，启动系统决策推演引擎", type="primary", use_container_width=True):
+        if st.button("全域面板特征挂载完毕，启动系统推演推演引擎", type="primary", use_container_width=True):
             st.session_state.city_category = cat_choice
             st.session_state.s_city = s_city_choice
             st.session_state.custom_logic = custom_logic_choice
