@@ -379,7 +379,7 @@ else:
                 st.session_state.city_category = new_cat;
                 st.session_state.s_city = new_city;
                 st.rerun()
-                else:
+         else:
                 new_city = st.text_input("二、目标推演区域", value=st.session_state.s_city, key="sb_city_cust")
                 new_logic = st.radio("核定底层算法基盘", ["偏向重化工业主导", "偏向综合与服务型"],
                                      index=0 if "重化工" in st.session_state.custom_logic else 1, key="sb_logic")
